@@ -1,11 +1,7 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar
+package com.emirtemindarov.tablesapp.bottom_nav_bar.bottom_bar
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
