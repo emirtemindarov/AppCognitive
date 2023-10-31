@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.bottom_bar
+package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class BottomBarViewModel : ViewModel() {
-    private val _bottomBarState = MutableStateFlow(BottomBarState())
-    val bottomBarState: StateFlow<BottomBarState> = _bottomBarState.asStateFlow()
+class ScaffoldViewModel : ViewModel() {
+    private val _scaffoldState = MutableStateFlow(ScaffoldState())
+    val scaffoldState: StateFlow<ScaffoldState> = _scaffoldState.asStateFlow()
 
     /*// внутренняя переменная ViewModel
     var viewModelCounter by mutableStateOf(0)
@@ -21,12 +21,12 @@ class BottomBarViewModel : ViewModel() {
 
     fun increase() {
         //viewModelCounter++
-        Log.i("before_state", "${_bottomBarState.value.counter}")
-        _bottomBarState.update { currentState ->
+        Log.i("before_state", "${_scaffoldState.value.counter}")
+        _scaffoldState.update { currentState ->
             currentState.copy(
                 counter = currentState.counter + 1
             )
         }
-        Log.i("after_state", "${_bottomBarState.value.counter}")
+        Log.i("after_state", "${_scaffoldState.value.counter}")
     }
 }

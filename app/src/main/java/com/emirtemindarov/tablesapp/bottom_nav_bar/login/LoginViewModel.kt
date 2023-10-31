@@ -2,7 +2,6 @@ package com.emirtemindarov.tablesapp.bottom_nav_bar.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.emirtemindarov.tablesapp.bottom_nav_bar.bottom_bar.BottomBarState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,11 +1,9 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.bottom_bar
+package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,10 +23,10 @@ import com.emirtemindarov.tablesapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomBarScreen(
+fun ScaffoldScreen(
     mainNavController: NavHostController
 ) {
-    val bottomBarNavController = rememberNavController()
+    val scaffoldNavController = rememberNavController()
 
     Scaffold(
         topBar = {
@@ -36,11 +34,11 @@ fun BottomBarScreen(
                 title = {
                     Text(text = "Top App Bar")
                 },
-                navigationIcon = {
+                /*navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(Icons.Filled.ArrowBack, "backIcon")
                     }
-                },
+                },*/
                 actions = {
                     IconButton(onClick = {
                         mainNavController.navigate("auth") {
@@ -59,35 +57,35 @@ fun BottomBarScreen(
         },
         bottomBar = {
             NavigationBar(containerColor = Color.Black) {
-                val backStackEntry by bottomBarNavController.currentBackStackEntryAsState()
+                val backStackEntry by scaffoldNavController.currentBackStackEntryAsState()
                 val currentRoute = backStackEntry?.destination?.route
 
 
                 NavigationBarItem(
                     selected = currentRoute == "tab_1",  // if
                     onClick = {
-                        bottomBarNavController.navigate("tab_1")
+                        scaffoldNavController.navigate("tab_1")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
                 NavigationBarItem(
                     selected = currentRoute == "tab_2",  // if
                     onClick = {
-                        bottomBarNavController.navigate("tab_2")
+                        scaffoldNavController.navigate("tab_2")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
                 NavigationBarItem(
                     selected = currentRoute == "tab_3",  // if
                     onClick = {
-                        bottomBarNavController.navigate("tab_3")
+                        scaffoldNavController.navigate("tab_3")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
             }
         }, content = { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                BottomBarNavGraph(bottomBarNavController = bottomBarNavController)
+                ScaffoldNavGraph(scaffoldNavController = scaffoldNavController)
             }
         }
     )

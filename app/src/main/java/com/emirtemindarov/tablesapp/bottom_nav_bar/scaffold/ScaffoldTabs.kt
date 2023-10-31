@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.bottom_bar
+package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,9 @@ import androidx.compose.runtime.key
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun Tab1(sharedViewModel: BottomBarViewModel) {
-    Log.i("tab_1_button_before", "${sharedViewModel.bottomBarState}")
-    val collectedState by sharedViewModel.bottomBarState.collectAsStateWithLifecycle()
+fun Tab1(sharedViewModel: ScaffoldViewModel) {
+    Log.i("tab_1_button_before", "${sharedViewModel.scaffoldState}")
+    val collectedState by sharedViewModel.scaffoldState.collectAsStateWithLifecycle()
     Log.i("tab_1_button_before_counter", "${collectedState.counter}")
     Column {
         key(collectedState.counter) {
@@ -20,7 +20,7 @@ fun Tab1(sharedViewModel: BottomBarViewModel) {
         }
         Button(onClick = {
             sharedViewModel.increase()
-            Log.i("tab_1_button_after", "${sharedViewModel.bottomBarState.value.counter}")
+            Log.i("tab_1_button_after", "${sharedViewModel.scaffoldState.value.counter}")
             Log.i("tab_1_button_after_counter", "${collectedState.counter}")
         }) {
             Text(text = "Вкладка1Прибавить")
@@ -29,9 +29,9 @@ fun Tab1(sharedViewModel: BottomBarViewModel) {
 }
 
 @Composable
-fun Tab2(sharedViewModel: BottomBarViewModel) {
-    Log.i("tab_2_button_before", "${sharedViewModel.bottomBarState}")
-    val collectedState by sharedViewModel.bottomBarState.collectAsStateWithLifecycle()
+fun Tab2(sharedViewModel: ScaffoldViewModel) {
+    Log.i("tab_2_button_before", "${sharedViewModel.scaffoldState}")
+    val collectedState by sharedViewModel.scaffoldState.collectAsStateWithLifecycle()
     Log.i("tab_2_button_before_counter", "${collectedState.counter}")
     Column {
         key(collectedState.counter) {
@@ -39,7 +39,7 @@ fun Tab2(sharedViewModel: BottomBarViewModel) {
         }
         Button(onClick = {
             sharedViewModel.increase()
-            Log.i("tab_2_button_after", "${sharedViewModel.bottomBarState.value.counter}")
+            Log.i("tab_2_button_after", "${sharedViewModel.scaffoldState.value.counter}")
             Log.i("tab_2_button_after_counter", "${collectedState.counter}")
         }) {
             Text(text = "Вкладка2Прибавить")
@@ -48,9 +48,9 @@ fun Tab2(sharedViewModel: BottomBarViewModel) {
 }
 
 @Composable
-fun Tab3(sharedViewModel: BottomBarViewModel) {
-    Log.i("tab_3_button_before", "${sharedViewModel.bottomBarState}")
-    val collectedState by sharedViewModel.bottomBarState.collectAsStateWithLifecycle()
+fun Tab3(sharedViewModel: ScaffoldViewModel) {
+    Log.i("tab_3_button_before", "${sharedViewModel.scaffoldState}")
+    val collectedState by sharedViewModel.scaffoldState.collectAsStateWithLifecycle()
     Log.i("tab_3_button_before_counter", "${collectedState.counter}")
     Column {
         key(collectedState.counter) {
@@ -58,7 +58,7 @@ fun Tab3(sharedViewModel: BottomBarViewModel) {
         }
         Button(onClick = {
             sharedViewModel.increase()
-            Log.i("tab_3_button_after", "${sharedViewModel.bottomBarState.value.counter}")
+            Log.i("tab_3_button_after", "${sharedViewModel.scaffoldState.value.counter}")
             Log.i("tab_3_button_after_counter", "${collectedState.counter}")
         }) {
             Text(text = "Вкладка3Прибавить")

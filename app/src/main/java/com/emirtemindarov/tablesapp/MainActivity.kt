@@ -12,14 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TablesAppTheme {
-
-
                 MainNavGraph()
-
-
-
-
-
             }
         }
     }

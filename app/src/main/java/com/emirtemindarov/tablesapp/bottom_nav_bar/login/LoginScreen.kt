@@ -35,11 +35,11 @@ fun LoginScreen(
                 title = {
                     Text(text = "Top App Bar")
                 },
-                navigationIcon = {
+                /*navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(Icons.Filled.ArrowBack, "backIcon")
                     }
-                },
+                },*/
                 actions = {
                     IconButton(onClick = {
                         mainNavController.navigate("bottom_bar") {
