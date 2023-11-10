@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
+package com.emirtemindarov.tablesapp.logic.scaffold
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar
+package com.emirtemindarov.tablesapp.logic
 
 import android.util.Log
 import androidx.compose.runtime.Composable

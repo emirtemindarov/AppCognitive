@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.login
+package com.emirtemindarov.tablesapp.logic.login
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column

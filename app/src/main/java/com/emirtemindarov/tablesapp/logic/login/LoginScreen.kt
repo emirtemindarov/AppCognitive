@@ -1,9 +1,9 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
+package com.emirtemindarov.tablesapp.logic.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,10 +23,10 @@ import com.emirtemindarov.tablesapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldScreen(
+fun LoginScreen(
     mainNavController: NavHostController
 ) {
-    val scaffoldNavController = rememberNavController()
+    val loginNavController = rememberNavController()
 
     Scaffold(
         topBar = {
@@ -41,13 +41,13 @@ fun ScaffoldScreen(
                 },*/
                 actions = {
                     IconButton(onClick = {
-                        mainNavController.navigate("auth") {
-                            popUpTo("bottom_bar") {
+                        mainNavController.navigate("bottom_bar") {
+                            popUpTo("auth") {
                                 inclusive = true
                             }
                         }
                     }) {
-                        Icon(Icons.Filled.AccountCircle, "AccountIcon")
+                        Icon(Icons.Filled.AccountBox, "AccountIcon")
                     }
                 }
                 //backgroundColor = MaterialTheme.colors.primary,
@@ -57,35 +57,35 @@ fun ScaffoldScreen(
         },
         bottomBar = {
             NavigationBar(containerColor = Color.Black) {
-                val backStackEntry by scaffoldNavController.currentBackStackEntryAsState()
+                val backStackEntry by loginNavController.currentBackStackEntryAsState()
                 val currentRoute = backStackEntry?.destination?.route
 
 
                 NavigationBarItem(
-                    selected = currentRoute == "tab_1",  // if
+                    selected = currentRoute == "login",  // if
                     onClick = {
-                        scaffoldNavController.navigate("tab_1")
+                        loginNavController.navigate("login")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
                 NavigationBarItem(
-                    selected = currentRoute == "tab_2",  // if
+                    selected = currentRoute == "registration",  // if
                     onClick = {
-                        scaffoldNavController.navigate("tab_2")
+                        loginNavController.navigate("registration")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
                 NavigationBarItem(
-                    selected = currentRoute == "tab_3",  // if
+                    selected = currentRoute == "change_password",  // if
                     onClick = {
-                        scaffoldNavController.navigate("tab_3")
+                        loginNavController.navigate("change_password")
                     },
                     icon = { R.drawable.baseline_table_chart_24 }
                 )
             }
         }, content = { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                ScaffoldNavGraph(scaffoldNavController = scaffoldNavController)
+                LoginNavGraph(loginNavController = loginNavController)
             }
         }
     )

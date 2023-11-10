@@ -1,17 +1,12 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.login
+package com.emirtemindarov.tablesapp.logic.login
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.emirtemindarov.tablesapp.bottom_nav_bar.getSharedViewModel
+import com.emirtemindarov.tablesapp.logic.getSharedViewModel
 
 @Composable
 fun LoginNavGraph(loginNavController: NavHostController) {

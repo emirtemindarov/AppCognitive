@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.bottom_nav_bar.scaffold
+package com.emirtemindarov.tablesapp.logic.scaffold
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.emirtemindarov.tablesapp.bottom_nav_bar.getSharedViewModel
+import com.emirtemindarov.tablesapp.logic.getSharedViewModel
 
 @Composable
 fun ScaffoldNavGraph(
