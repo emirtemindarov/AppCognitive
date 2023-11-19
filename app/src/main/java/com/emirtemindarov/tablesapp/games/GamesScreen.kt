@@ -9,6 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,72 +33,95 @@ fun GamesScreen(
     onEvent: (GameEvent) -> Unit,
     mainNavController: NavHostController
 ) {
-    if(gamesState.isAddingGame) {
+    if (gamesState.isAddingGame) {
         AddGameDialog(gamesState = gamesState, onEvent = onEvent)
     }
 
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                GamesSortType.values().forEach { sortType ->
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                onEvent(GameEvent.SortGames(sortType))
-                            },
-                        verticalAlignment = CenterVertically
+    Column {
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            modifier = Modifier.weight(0.9f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    GamesSortType.values().forEach { sortType ->
+                        Row(
+                            modifier = Modifier
+                                .clickable {
+                                    onEvent(GameEvent.SortGames(sortType))
+                                },
+                            verticalAlignment = CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = gamesState.sortType == sortType,
+                                onClick = {
+                                    onEvent(GameEvent.SortGames(sortType))
+                                }
+                            )
+                            Text(text = sortType.name)
+                        }
+                    }
+                }
+            }
+
+            items(gamesState.gamesList) { game ->
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f)
                     ) {
-                        RadioButton(
-                            selected = gamesState.sortType == sortType,
-                            onClick = {
-                                onEvent(GameEvent.SortGames(sortType))
-                            }
+                        Text(
+                            text = "${game.title} ${game.description}",
+                            fontSize = 20.sp
                         )
-                        Text(text = sortType.name)
+                        Text(text = game.difficulty, fontSize = 12.sp)
+                    }
+                    IconButton(onClick = {
+                        onEvent(GameEvent.DeleteGame(game))
+                    }) {
+                        Icon(Icons.Default.Delete, "Delete games")
                     }
                 }
             }
         }
-        items(gamesState.gamesList) { game ->
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = "${game.title} ${game.description}",
-                        fontSize = 20.sp
-                    )
-                    Text(text = game.difficulty, fontSize = 12.sp)
-                }
-                IconButton(onClick = {
-                    onEvent(GameEvent.DeleteGame(game))
+
+        Column(
+            modifier = Modifier.weight(0.1f).padding(16.dp)
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Button(onClick = {
+                    onEvent(GameEvent.ShowDialog)
                 }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete games"
-                    )
+                    Icon(Icons.Default.Add, "Add contact")
+                }
+
+                Button(onClick = {
+                    mainNavController.navigate("auth") {
+                        popUpTo("room_test") {
+                            inclusive = true
+                        }
+                    }
+                }) {
+                    Icon(Icons.Default.Lock, "Login")
+                }
+
+                Button(onClick = {
+                    mainNavController.navigate("bottom_bar") {
+                        popUpTo("room_test") {
+                            inclusive = true
+                        }
+                    }
+                }) {
+                    Icon(Icons.Default.List, "Scaffold")
                 }
             }
         }
-    }
-
-    Button(onClick = {
-        onEvent(GameEvent.ShowDialog)
-    }) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Add contact"
-        )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +49,15 @@ fun LoginScreen(
                         }
                     }) {
                         Icon(Icons.Filled.AccountBox, "AccountIcon")
+                    }
+                    IconButton(onClick = {
+                        mainNavController.navigate("room_test") {
+                            popUpTo("auth") {
+                                inclusive = true
+                            }
+                        }
+                    }) {
+                        Icon(Icons.Filled.KeyboardArrowRight, "GameScreen")
                     }
                 }
                 //backgroundColor = MaterialTheme.colors.primary,

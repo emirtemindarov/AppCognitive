@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -46,8 +47,6 @@ import com.emirtemindarov.tablesapp.games.GamesSortType
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldScreen(
-    gamesState: GamesState,
-    onEvent: (GameEvent) -> Unit,
     mainNavController: NavHostController
 ) {
     val scaffoldNavController = rememberNavController()
@@ -72,6 +71,15 @@ fun ScaffoldScreen(
                         }
                     }) {
                         Icon(Icons.Filled.AccountCircle, "AccountIcon")
+                    }
+                    IconButton(onClick = {
+                        mainNavController.navigate("room_test") {
+                            popUpTo("bottom_bar") {
+                                inclusive = true
+                            }
+                        }
+                    }) {
+                        Icon(Icons.Filled.KeyboardArrowRight, "GameScreen")
                     }
                 }
                 //backgroundColor = MaterialTheme.colors.primary,

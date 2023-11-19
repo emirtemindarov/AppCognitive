@@ -27,7 +27,7 @@ fun MainNavGraph(
                 SCAFFOLD
              */
             composable(route = "bottom_bar") {
-                ScaffoldScreen(gamesState, onEvent, mainNavController)
+                ScaffoldScreen(mainNavController)
             }
             /*
                 LOGIN

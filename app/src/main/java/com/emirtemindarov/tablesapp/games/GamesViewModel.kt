@@ -13,16 +13,16 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GamesViewModel(
-    private val dao: GamesDao
+    private val gamesDao: GamesDao
 ): ViewModel() {
     private val _gamesSortType = MutableStateFlow(GamesSortType.DEFAULT)
 
     private val _games = _gamesSortType
         .flatMapLatest { gamesSortType ->
             when(gamesSortType) {
-                GamesSortType.DEFAULT -> dao.getGamesOrderedByDefault()
-                GamesSortType.DIFFICULTY -> dao.getGamesOrderedByDifficulty()
-                GamesSortType.BEST_SCORE -> dao.getGamesOrderedByBestScore()
+                GamesSortType.DEFAULT -> gamesDao.getGamesOrderedByDefault()
+                GamesSortType.DIFFICULTY -> gamesDao.getGamesOrderedByDifficulty()
+                GamesSortType.BEST_SCORE -> gamesDao.getGamesOrderedByBestScore()
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -39,7 +39,7 @@ class GamesViewModel(
         when(event) {
             is GameEvent.DeleteGame -> {
                 viewModelScope.launch {
-                    dao.deleteGame(event.game)
+                    gamesDao.deleteGame(event.game)
                 }
             }
             GameEvent.SaveGame -> {
@@ -61,7 +61,7 @@ class GamesViewModel(
                     bestScore = 0
                 )
                 viewModelScope.launch {
-                    dao.upsertGame(game)
+                    gamesDao.upsertGame(game)
                 }
                 _gameState.update { it.copy(
                     isAddingGame = false,

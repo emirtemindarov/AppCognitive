@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-import com.emirtemindarov.tablesapp.games.GamesDatabase
+import com.emirtemindarov.tablesapp.database.AppDatabase
 import com.emirtemindarov.tablesapp.games.GamesViewModel
 import com.emirtemindarov.tablesapp.logic.MainNavGraph
 import com.emirtemindarov.tablesapp.ui.theme.TablesAppTheme
@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
     private val db by lazy {
         Room.databaseBuilder(
             applicationContext,
-            GamesDatabase::class.java,
-            "games.db"
+            AppDatabase::class.java,
+            "app.db"
         ).build()
     }
 
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel/*?*/> create(modelClass: Class<T>): T {   // !!!!
-                    return GamesViewModel(db.dao) as T
+                    return GamesViewModel(db.gamesDao) as T
                 }
             }
         }
