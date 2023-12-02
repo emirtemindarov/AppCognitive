@@ -1,5 +1,6 @@
 package com.emirtemindarov.tablesapp.logic
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,36 +11,49 @@ import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesScreen
 import com.emirtemindarov.tablesapp.games.GamesState
 import com.emirtemindarov.tablesapp.games.GamesViewModel
-import com.emirtemindarov.tablesapp.logic.login.LoginScreen
+import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
+import com.emirtemindarov.tablesapp.logic.login.LoginNavGraph
 import com.emirtemindarov.tablesapp.logic.scaffold.ScaffoldScreen
 
 @Composable
 fun MainNavGraph(
-    // ни gamesViewState, ни gameState, и все что связано с игрой не должны здесь быть (должно создаваться после авторизации и брать данные из firebase)
+    applicationContext: Context,
+    googleAuthUiClient: GoogleAuthUiClient,
     gamesState: GamesState,
     onEvent: (GameEvent) -> Unit,
-    // должно здесь быть
-    mainNavController: NavHostController = rememberNavController(),
-    ) {
+    mainNavController: NavHostController = rememberNavController()
+) {
     NavHost(navController = mainNavController, startDestination = "parts") {
-        navigation(route = "parts", startDestination = "room_test") {
+        navigation(route = "parts", startDestination = "auth") {
             /*
                 SCAFFOLD
              */
             composable(route = "bottom_bar") {
-                ScaffoldScreen(mainNavController)
+                ScaffoldScreen(
+                    applicationContext,
+                    googleAuthUiClient,
+                    mainNavController
+                )
             }
             /*
                 LOGIN
             */
             composable(route = "auth") {
-                LoginScreen(mainNavController)
+                LoginNavGraph(
+                    applicationContext,
+                    googleAuthUiClient,
+                    mainNavController
+                )
             }
             /*
                 ROOM TEST
             */
             composable(route = "room_test") {
-                GamesScreen(gamesState, onEvent, mainNavController)
+                GamesScreen(
+                    gamesState,
+                    onEvent,
+                    mainNavController
+                )
             }
         }
     }

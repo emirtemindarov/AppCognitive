@@ -7,9 +7,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.emirtemindarov.tablesapp.logic.getSharedViewModel
+import com.emirtemindarov.tablesapp.logic.login.UserData
 
 @Composable
 fun ScaffoldNavGraph(
+    userData: UserData?,
+    onSignOut: () -> Unit,
     scaffoldNavController: NavHostController
 ) {
     NavHost(navController = scaffoldNavController, startDestination = "tabs") {
@@ -27,7 +30,7 @@ fun ScaffoldNavGraph(
             composable("tab_3") { entry ->
                 val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
                 Log.i("snc_Tab3", "${sharedViewModel}")
-                Tab3(sharedViewModel)
+                Tab3(userData, onSignOut, sharedViewModel)
             }
         }
     }

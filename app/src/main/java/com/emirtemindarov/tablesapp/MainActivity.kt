@@ -12,7 +12,9 @@ import androidx.room.Room
 import com.emirtemindarov.tablesapp.database.AppDatabase
 import com.emirtemindarov.tablesapp.games.GamesViewModel
 import com.emirtemindarov.tablesapp.logic.MainNavGraph
+import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.emirtemindarov.tablesapp.ui.theme.TablesAppTheme
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
 
@@ -22,6 +24,13 @@ class MainActivity : ComponentActivity() {
             AppDatabase::class.java,
             "app.db"
         ).build()
+    }
+
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
     }
 
     private val gamesViewModel by viewModels<GamesViewModel>(
@@ -39,7 +48,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             TablesAppTheme {
                 val gamesState by gamesViewModel.gameState.collectAsState()
-                MainNavGraph(gamesState = gamesState, onEvent = gamesViewModel::onEvent)
+                MainNavGraph(
+                    applicationContext,
+                    googleAuthUiClient,
+                    gamesState,
+                    onEvent = gamesViewModel::onEvent
+                )
             }
         }
     }

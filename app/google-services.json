@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "552735497226",
+    "project_id": "appcognitive-6948f",
+    "storage_bucket": "appcognitive-6948f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552735497226:android:4afc2d0c5b185cc60d93f3",
+        "android_client_info": {
+          "package_name": "com.emirtemindarov.tablesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552735497226-skum8r81pc3ebn36telif7cprsrk93ie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emirtemindarov.tablesapp",
+            "certificate_hash": "52db1ea2d7a526b29e663c3568070fbca1465775"
+          }
+        },
+        {
+          "client_id": "552735497226-hpt6dtaet8um09rf6sc73h92u05rmsua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAadccfO5B5DZIk8xs_iVYhO8d00_as__w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552735497226-hpt6dtaet8um09rf6sc73h92u05rmsua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
