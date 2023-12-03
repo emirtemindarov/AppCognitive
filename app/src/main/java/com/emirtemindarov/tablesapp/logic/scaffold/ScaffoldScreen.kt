@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -62,7 +65,7 @@ fun ScaffoldScreen(
             googleAuthUiClient.signOut()
             Toast.makeText(
                 applicationContext,
-                "Signed out",
+                "Выход из аккаунта",
                 Toast.LENGTH_LONG
             ).show()
             mainNavController.navigate("auth") {
@@ -100,35 +103,66 @@ fun ScaffoldScreen(
         }
     }
 
+    val backStackEntry by scaffoldNavController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = "Top App Bar")
+                navigationIcon = {
+                    if (currentRoute == "tab_3") {
+                        IconButton(onClick = {
+                            scaffoldNavController.popBackStack()
+                        }, modifier = Modifier.wrapContentSize()
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+                                contentDescription = "Account top-left back icon",
+                                modifier = Modifier.size(35.dp)
+                            )
+                        }
+                    }
                 },
-                /*navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.ArrowBack, "backIcon")
-                    }
-                },*/
+                title = {
+                    Text(text = when (currentRoute) {
+                        "tab_1" -> "Задачи"
+                        "tab_2" -> "Группы"
+                        "tab_3" -> ""
+                        else -> "Ошибка"
+                    })
+                },
                 actions = {
-                    IconButton(onClick = {
-                        mainNavController.navigate("auth") {
-                            popUpTo("bottom_bar") {
-                                inclusive = true
-                            }
+                    if (currentRoute == "tab_1") {
+                        IconButton(onClick = {
+                            // TODO
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_sort_24),
+                                contentDescription = "GameScreen top-right sort icon"
+                            )
                         }
-                    }) {
-                        Icon(Icons.Filled.AccountCircle, "AccountIcon")
                     }
-                    IconButton(onClick = {
-                        mainNavController.navigate("room_test") {
-                            popUpTo("bottom_bar") {
-                                inclusive = true
+                    if (false) {
+                        IconButton(onClick = {
+                            mainNavController.navigate("auth") {
+                                popUpTo("bottom_bar") {
+                                    inclusive = true
+                                }
                             }
+                        }) {
+                            Icon(Icons.Filled.AccountCircle, "AccountIcon")
                         }
-                    }) {
-                        Icon(Icons.Filled.KeyboardArrowRight, "GameScreen")
+                    }
+                    if (false) {
+                        IconButton(onClick = {
+                            mainNavController.navigate("room_test") {
+                                popUpTo("bottom_bar") {
+                                    inclusive = true
+                                }
+                            }
+                        }) {
+                            Icon(Icons.Filled.KeyboardArrowRight, "GameScreen")
+                        }
                     }
                 }
                 //backgroundColor = MaterialTheme.colors.primary,
@@ -148,59 +182,58 @@ fun ScaffoldScreen(
             }
         },*/
         bottomBar = {
-            NavigationBar(containerColor = Color.Black) {
-                val backStackEntry by scaffoldNavController.currentBackStackEntryAsState()
-                val currentRoute = backStackEntry?.destination?.route
+            if (currentRoute != "tab_3") {
+                NavigationBar(containerColor = Color.Black) {
 
-
-                NavigationBarItem(
-                    selected = currentRoute == "tab_1",  // if
-                    onClick = {
-                        scaffoldNavController.navigate("tab_1")
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_view_list_24),
-                            contentDescription = "Default tab1 icon"
-                        )
-                    }
-                )
-                NavigationBarItem(
-                    selected = currentRoute == "tab_2",  // if
-                    onClick = {
-                        scaffoldNavController.navigate("tab_2")
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_announcement_24),
-                            contentDescription = "Default tab2 icon"
-                        )
-                    }
-                )
-                NavigationBarItem(
-                    selected = currentRoute == "tab_3",  // if
-                    onClick = {
-                        scaffoldNavController.navigate("tab_3")
-                    },
-                    icon = {
-                        if (userData?.profilePictureUrl != null) {
-                            AsyncImage(
-                                model = userData.profilePictureUrl,
-                                contentDescription = "Profile picture",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                        } else {
+                    NavigationBarItem(
+                        selected = currentRoute == "tab_1",  // if
+                        onClick = {
+                            scaffoldNavController.navigate("tab_1")
+                        },
+                        icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_account_circle_24),
-                                contentDescription = "Default profile icon"
+                                painter = painterResource(id = R.drawable.baseline_view_list_24),
+                                contentDescription = "Default tab1 icon"
                             )
                         }
-                    }
-                )
+                    )
+                    NavigationBarItem(
+                        selected = currentRoute == "tab_2",  // if
+                        onClick = {
+                            scaffoldNavController.navigate("tab_2")
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                contentDescription = "Default tab2 icon"
+                            )
+                        }
+                    )
+                    NavigationBarItem(
+                        selected = currentRoute == "tab_3",  // if
+                        onClick = {
+                            scaffoldNavController.navigate("tab_3")
+                        },
+                        icon = {
+                            if (userData?.profilePictureUrl != null) {
+                                AsyncImage(
+                                    model = userData.profilePictureUrl,
+                                    contentDescription = "Profile picture",
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .clip(CircleShape),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            } else {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_account_circle_24),
+                                    contentDescription = "Default profile icon"
+                                )
+                            }
+                        }
+                    )
+                }
             }
         }, content = { padding ->
             Column(modifier = Modifier.padding(padding)) {

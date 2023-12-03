@@ -1,6 +1,5 @@
 package com.emirtemindarov.tablesapp.games
 
-import android.app.GameState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
