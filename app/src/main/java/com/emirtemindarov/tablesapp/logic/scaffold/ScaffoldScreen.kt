@@ -1,73 +1,62 @@
 package com.emirtemindarov.tablesapp.logic.scaffold
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.emirtemindarov.tablesapp.R
-import com.emirtemindarov.tablesapp.games.AddGameDialog
-import com.emirtemindarov.tablesapp.games.GamesState
-import com.emirtemindarov.tablesapp.games.GameEvent
-import com.emirtemindarov.tablesapp.games.GamesSortType
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
-import com.emirtemindarov.tablesapp.logic.login.UserData
+import com.google.firebase.FirebaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldScreen(
     applicationContext: Context,
     googleAuthUiClient: GoogleAuthUiClient,
+    usersRef: DatabaseReference,
     mainNavController: NavHostController,
     scaffoldNavController: NavHostController = rememberNavController()
 ) {
     val coroutineScope = rememberCoroutineScope()
     val userData = googleAuthUiClient.getSignedInUser()
+    var addChildTrigger = false
+
     val onSignOut: () -> Unit = {
         coroutineScope.launch {
             googleAuthUiClient.signOut()
@@ -81,6 +70,33 @@ fun ScaffoldScreen(
                     inclusive = true
                 }
             }
+        }
+    }
+
+    usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            userData?.let {
+                for (user in dataSnapshot.children) {
+                    if (user.key == userData.userId) {
+                        Log.i("sign_in", "Sign in: $user")
+                    } else {
+                        Log.i("new_user", "New user: ${dataSnapshot.children}, ${user.child(userData.userId).children}, ${user.child(userData.userId)}, ${user.child(userData.userId).child("parameter1")}")
+                        addChildTrigger = !addChildTrigger
+                    }
+                }
+            }
+        }
+        override fun onCancelled(error: DatabaseError) {
+            Log.w("read fail", "Failed to read value.", error.toException())
+        }
+    })
+
+    LaunchedEffect(key1 = addChildTrigger) {
+        val hashMap = HashMap<String, Int>()
+        hashMap.put("parameter1", 11)
+        hashMap.put("parameter2", 12)
+        userData?.let {
+            usersRef.child(userData.userId).setValue(hashMap)
         }
     }
 

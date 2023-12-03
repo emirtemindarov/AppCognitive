@@ -36,7 +36,7 @@ fun SignInScreen(
         contentAlignment = Alignment.Center
     ) {
         Button(onClick = onSignInClick) {
-            Text(text = "Sign in")
+            Text(text = "Войти через Google")
         }
     }
 }

@@ -92,7 +92,7 @@ fun Tab3(userData: UserData?,
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Button(onClick = onSignOut) {
-                Text(text = "Sign out")
+                Text(text = "Выйти из аккаунта")
             }
         }
 }

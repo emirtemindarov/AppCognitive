@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.emirtemindarov.tablesapp.logic.getSharedViewModel
+import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
 
 @Composable
@@ -40,7 +41,7 @@ fun LoginNavGraph(
                 val state by viewModel.state.collectAsStateWithLifecycle()
 
                 LaunchedEffect(key1 = Unit) {
-                    if(googleAuthUiClient.getSignedInUser() != null) {
+                    if (googleAuthUiClient.getSignedInUser() != null) {
                         mainNavController.navigate("room_test")
                     }
                 }
@@ -48,7 +49,7 @@ fun LoginNavGraph(
                 val launcher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.StartIntentSenderForResult(),
                     onResult = { result ->
-                        if(result.resultCode == RESULT_OK) {
+                        if (result.resultCode == RESULT_OK) {
                             coroutineScope.launch {
                                 val signInResult = googleAuthUiClient.signInWithIntent(
                                     intent = result.data ?: return@launch
@@ -60,14 +61,14 @@ fun LoginNavGraph(
                 )
 
                 LaunchedEffect(key1 = state.isSignInSuccessful) {
-                    if(state.isSignInSuccessful) {
+                    if (state.isSignInSuccessful) {
                         Toast.makeText(
                             applicationContext,
-                            "Sign in successful",
+                            "Вход выполнен",
                             Toast.LENGTH_LONG
                         ).show()
 
-                        mainNavController.navigate("room_test")
+                        mainNavController.navigate("bottom_bar")
                         viewModel.resetState()
                     }
                 }
@@ -86,7 +87,7 @@ fun LoginNavGraph(
                     }
                 )
             }
-            }
+
             composable("registration") { entry ->
                 /*val sharedViewModel = entry.getSharedViewModel<SignInViewModel>(loginNavController)
                 Log.i("anc_Tab2", "${sharedViewModel}")*/
@@ -97,5 +98,6 @@ fun LoginNavGraph(
                 Log.i("anc_Tab3", "${sharedViewModel}")*/
 
             }
+        }
     }
 }

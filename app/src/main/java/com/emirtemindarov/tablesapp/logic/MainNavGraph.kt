@@ -14,9 +14,11 @@ import com.emirtemindarov.tablesapp.games.GamesViewModel
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.emirtemindarov.tablesapp.logic.login.LoginNavGraph
 import com.emirtemindarov.tablesapp.logic.scaffold.ScaffoldScreen
+import com.google.firebase.database.DatabaseReference
 
 @Composable
 fun MainNavGraph(
+    usersRef: DatabaseReference,
     applicationContext: Context,
     googleAuthUiClient: GoogleAuthUiClient,
     gamesState: GamesState,
@@ -32,6 +34,7 @@ fun MainNavGraph(
                 ScaffoldScreen(
                     applicationContext,
                     googleAuthUiClient,
+                    usersRef,
                     mainNavController
                 )
             }
