@@ -42,7 +42,7 @@ fun LoginNavGraph(
 
                 LaunchedEffect(key1 = Unit) {
                     if (googleAuthUiClient.getSignedInUser() != null) {
-                        mainNavController.navigate("room_test")
+                        mainNavController.navigate("bottom_bar")
                     }
                 }
 
@@ -88,16 +88,16 @@ fun LoginNavGraph(
                 )
             }
 
-            composable("registration") { entry ->
-                /*val sharedViewModel = entry.getSharedViewModel<SignInViewModel>(loginNavController)
-                Log.i("anc_Tab2", "${sharedViewModel}")*/
+            /*composable("registration") { entry ->
+                *//*val sharedViewModel = entry.getSharedViewModel<SignInViewModel>(loginNavController)
+                Log.i("anc_Tab2", "${sharedViewModel}")*//*
 
             }
             composable("change_password") { entry ->
-                /*val sharedViewModel = entry.getSharedViewModel<SignInViewModel>(loginNavController)
-                Log.i("anc_Tab3", "${sharedViewModel}")*/
+                *//*val sharedViewModel = entry.getSharedViewModel<SignInViewModel>(loginNavController)
+                Log.i("anc_Tab3", "${sharedViewModel}")*//*
 
-            }
+            }*/
         }
     }
 }
