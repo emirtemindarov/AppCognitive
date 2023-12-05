@@ -48,7 +48,7 @@ fun GamesScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState()),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = CenterVertically
                 ) {
                     GamesSortType.values().forEach { sortType ->
                         Row(
@@ -71,57 +71,49 @@ fun GamesScreen(
             }
 
             items(gamesState.gamesList) { game ->
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "${game.title} ${game.description}",
-                            fontSize = 20.sp
-                        )
-                        Text(text = game.difficulty, fontSize = 12.sp)
-                    }
-                    IconButton(onClick = {
-                        onEvent(GameEvent.DeleteGame(game))
-                    }) {
-                        Icon(Icons.Default.Delete, "Delete games")
-                    }
-                }
+                GamesListItem(
+                    game,
+                    gamesState,
+                    onEvent
+                )
             }
         }
 
-        Column(
-            modifier = Modifier.weight(0.1f).padding(16.dp)
-        ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Button(onClick = {
-                    onEvent(GameEvent.ShowDialog)
-                }) {
-                    Icon(Icons.Default.Add, "Add contact")
-                }
-
-                Button(onClick = {
-                    mainNavController.navigate("auth") {
-                        popUpTo("room_test") {
-                            inclusive = true
-                        }
+        // (для отладки) Доп. панель для переходов над scaffold-кнопками
+        if (false) {
+            Column(
+                modifier = Modifier.weight(0.1f).padding(16.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Button(onClick = {
+                        onEvent(GameEvent.ShowDialog)
+                    }) {
+                        Icon(Icons.Default.Add, "Add contact")
                     }
-                }) {
-                    Icon(Icons.Default.Lock, "Login")
-                }
 
-                Button(onClick = {
-                    mainNavController.navigate("bottom_bar") {
-                        popUpTo("room_test") {
-                            inclusive = true
+                    Button(onClick = {
+                        mainNavController.navigate("auth") {
+                            popUpTo("room_test") {
+                                inclusive = true
+                            }
                         }
+                    }) {
+                        Icon(Icons.Default.Lock, "Login")
                     }
-                }) {
-                    Icon(Icons.Default.List, "Scaffold")
+
+                    Button(onClick = {
+                        mainNavController.navigate("bottom_bar") {
+                            popUpTo("room_test") {
+                                inclusive = true
+                            }
+                        }
+                    }) {
+                        Icon(Icons.Default.List, "Scaffold")
+                    }
                 }
             }
         }
     }
 }
+
+

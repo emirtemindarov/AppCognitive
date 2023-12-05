@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.logic
+package com.emirtemindarov.tablesapp.helpers
 
 import android.util.Log
 import androidx.compose.runtime.Composable

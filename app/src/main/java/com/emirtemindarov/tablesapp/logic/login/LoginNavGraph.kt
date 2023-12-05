@@ -2,7 +2,6 @@ package com.emirtemindarov.tablesapp.logic.login
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -18,8 +17,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.emirtemindarov.tablesapp.logic.getSharedViewModel
-import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
 
 @Composable

@@ -3,7 +3,9 @@ package com.emirtemindarov.tablesapp.logic.scaffold
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,10 +29,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -38,6 +42,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.emirtemindarov.tablesapp.R
+import com.emirtemindarov.tablesapp.games.GameEvent
+import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.helpers.ContextMenuWrapper
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.google.firebase.FirebaseError
 import com.google.firebase.database.DataSnapshot
@@ -53,6 +60,8 @@ fun ScaffoldScreen(
     applicationContext: Context,
     googleAuthUiClient: GoogleAuthUiClient,
     usersRef: DatabaseReference,
+    gamesState: GamesState,
+    onEvent: (GameEvent) -> Unit,
     mainNavController: NavHostController,
     scaffoldNavController: NavHostController = rememberNavController()
 ) {
@@ -133,15 +142,67 @@ fun ScaffoldScreen(
                 },
                 actions = {
                     if (currentRoute == "tab_1") {
-                        IconButton(onClick = {
-                            // TODO
-                        }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_sort_24),
-                                contentDescription = "GameScreen top-right sort icon"
-                            )
-                        }
+
+                            ContextMenuWrapper(
+                                dropdownMenuItems = listOf(
+                                    ContextMenuItemContent(
+                                        item = {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.Start
+                                            ) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                                    contentDescription = "Dropdown item"
+                                                )
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Text(text = "Сортировать")
+                                            }
+                                        },
+                                        action = {
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "Cработало первое действие",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        },
+                                    ),
+                                    ContextMenuItemContent(
+                                        item = {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.Start
+                                            ) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                                    contentDescription = "Dropdown item"
+                                                )
+                                                Spacer(modifier = Modifier.width(10.dp))
+                                                Text(text = "Руководство")
+                                            }
+                                        },
+                                        action = {
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "Cработало второе действие",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        },
+                                        divider = true
+                                    )
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_sort_24),
+                                    contentDescription = "GameScreen top-right sort icon"
+                                )
+                            }
+
+
                     }
+
+
+
                     if (false) {
                         IconButton(onClick = {
                             mainNavController.navigate("auth") {
@@ -240,7 +301,10 @@ fun ScaffoldScreen(
                 ScaffoldNavGraph(
                     userData,
                     onSignOut,
-                    scaffoldNavController = scaffoldNavController
+                    gamesState,
+                    onEvent,
+                    scaffoldNavController,
+                    mainNavController
                 )
             }
         }

@@ -6,21 +6,30 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.emirtemindarov.tablesapp.logic.getSharedViewModel
+import com.emirtemindarov.tablesapp.games.GameEvent
+import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.helpers.getSharedViewModel
 import com.emirtemindarov.tablesapp.logic.login.UserData
 
 @Composable
 fun ScaffoldNavGraph(
     userData: UserData?,
     onSignOut: () -> Unit,
-    scaffoldNavController: NavHostController
+    gamesState: GamesState,
+    onEvent: (GameEvent) -> Unit,
+    scaffoldNavController: NavHostController,
+    mainNavController: NavHostController
 ) {
     NavHost(navController = scaffoldNavController, startDestination = "tabs") {
         navigation(route = "tabs", startDestination = "tab_1") {
             composable("tab_1") { entry ->
                 val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
                 Log.i("snc_Tab1", "${sharedViewModel}")
-                Tab1(sharedViewModel)
+                Tab1(
+                    gamesState,
+                    onEvent,
+                    mainNavController
+                )
             }
             composable("tab_2") { entry ->
                 val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)

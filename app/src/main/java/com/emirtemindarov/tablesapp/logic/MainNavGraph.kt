@@ -35,6 +35,8 @@ fun MainNavGraph(
                     applicationContext,
                     googleAuthUiClient,
                     usersRef,
+                    gamesState,
+                    onEvent,
                     mainNavController
                 )
             }
