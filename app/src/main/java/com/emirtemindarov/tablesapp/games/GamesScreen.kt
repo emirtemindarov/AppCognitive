@@ -43,7 +43,8 @@ fun GamesScreen(
             modifier = Modifier.weight(0.9f),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
+
+            /*item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -68,7 +69,7 @@ fun GamesScreen(
                         }
                     }
                 }
-            }
+            }*/
 
             items(gamesState.gamesList) { game ->
                 GamesListItem(
@@ -80,9 +81,11 @@ fun GamesScreen(
         }
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (false) {
+        if (true) {
             Column(
-                modifier = Modifier.weight(0.1f).padding(16.dp)
+                modifier = Modifier
+                    .weight(0.1f)
+                    .padding(16.dp)
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     Button(onClick = {
