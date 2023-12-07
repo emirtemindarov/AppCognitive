@@ -52,7 +52,10 @@ fun ContextMenu(
             }
             DropdownMenuItem(
                 text = item,
-                onClick = action
+                onClick = {
+                    collapse.invoke()
+                    action.invoke()
+                }
             )
         }
     }

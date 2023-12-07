@@ -100,8 +100,8 @@ fun GamesScreen(
             //state = listState,
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier
-                .weight(0.9f)
-                .border(2.dp, Color.Red),
+                //.border(2.dp, Color.Red)
+                .weight(0.9f),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
@@ -131,7 +131,7 @@ fun GamesScreen(
 
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (true) {
+        if (false) {
             Column(
                 modifier = Modifier
                     .weight(0.1f)
@@ -166,6 +166,7 @@ fun GamesScreen(
                 }
             }
         }
+
 
 
 

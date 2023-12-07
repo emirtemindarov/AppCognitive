@@ -132,15 +132,23 @@ fun ScaffoldScreen(
                         }
                     }
                 },
+
                 title = {
-                    Text(text = when (currentRoute) {
-                        "tab_1" -> "Задачи"
-                        "tab_2" -> "Группы"
-                        "tab_3" -> ""
-                        else -> "Ошибка"
-                    })
+                    Row {
+                        Spacer(modifier = Modifier.width(20.dp))
+                        Text(
+                            text = when (currentRoute) {
+                                "tab_1" -> "Задачи"
+                                "tab_2" -> "Группы"
+                                "tab_3" -> ""
+                                else -> "Ошибка"
+                            }
+                        )
+                    }
                 },
+
                 actions = {
+                    // Выпадающее меню справа сверху для вкладки 1
                     if (currentRoute == "tab_1") {
 
                             ContextMenuWrapper(
@@ -198,11 +206,72 @@ fun ScaffoldScreen(
                                 )
                             }
 
+                    }
+
+                    // Выпадающее меню справа сверху для вкладки 2
+                    if (currentRoute == "tab_2") {
+
+                        ContextMenuWrapper(
+                            dropdownMenuItems = listOf(
+                                ContextMenuItemContent(
+                                    item = {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Start
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                                contentDescription = "Dropdown item"
+                                            )
+                                            Spacer(modifier = Modifier.width(10.dp))
+                                            Text(text = "Сортировать")
+                                        }
+                                    },
+                                    action = {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Cработало первое действие",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
+                                ),
+                                ContextMenuItemContent(
+                                    item = {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Start
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                                contentDescription = "Dropdown item"
+                                            )
+                                            Spacer(modifier = Modifier.width(10.dp))
+                                            Text(text = "Руководство")
+                                        }
+                                    },
+                                    action = {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Cработало второе действие",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
+                                    divider = true
+                                )
+                            )
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_sort_24),
+                                contentDescription = "GameScreen top-right sort icon"
+                            )
+                        }
+
 
                     }
 
 
 
+                    // Доп. кнопки перехода для отладки
                     if (false) {
                         IconButton(onClick = {
                             mainNavController.navigate("auth") {
@@ -231,7 +300,8 @@ fun ScaffoldScreen(
                 //elevation = 10.dp
             )
         },
-        // Будет работать на всех вкладках, а мне надо отдельно
+
+        // Будет работать на всех вкладках, а надо отдельно
         /*floatingActionButton = {
             FloatingActionButton(onClick = {
                 onEvent(GameEvent.ShowDialog)
@@ -242,14 +312,17 @@ fun ScaffoldScreen(
                 )
             }
         },*/
+
         bottomBar = {
             if (currentRoute != "tab_3") {
                 NavigationBar(containerColor = Color.Black) {
 
                     NavigationBarItem(
-                        selected = currentRoute == "tab_1",  // if
+                        selected = currentRoute == "tab_1",  // if    TODO переделать
                         onClick = {
-                            scaffoldNavController.navigate("tab_1")
+                            if (currentRoute != "tab_1") {
+                                scaffoldNavController.navigate("tab_1")
+                            }
                         },
                         icon = {
                             Icon(
@@ -259,9 +332,11 @@ fun ScaffoldScreen(
                         }
                     )
                     NavigationBarItem(
-                        selected = currentRoute == "tab_2",  // if
+                        selected = currentRoute == "tab_2",  // if    TODO переделать
                         onClick = {
-                            scaffoldNavController.navigate("tab_2")
+                            if (currentRoute != "tab_2") {
+                                scaffoldNavController.navigate("tab_2")
+                            }
                         },
                         icon = {
                             Icon(
@@ -271,9 +346,11 @@ fun ScaffoldScreen(
                         }
                     )
                     NavigationBarItem(
-                        selected = currentRoute == "tab_3",  // if
+                        selected = currentRoute == "tab_3",  // if    TODO переделать
                         onClick = {
-                            scaffoldNavController.navigate("tab_3")
+                            if (currentRoute != "tab_3") {
+                                scaffoldNavController.navigate("tab_3")
+                            }
                         },
                         icon = {
                             if (userData?.profilePictureUrl != null) {

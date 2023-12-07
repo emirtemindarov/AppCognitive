@@ -1,6 +1,7 @@
 package com.emirtemindarov.tablesapp.games
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -38,12 +39,12 @@ fun <E> CustomDropdownMenu(
     var isOpen by remember { mutableStateOf(false) }
 
     Box(
-        modifier
+        contentAlignment = Alignment.CenterStart,
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(48.dp))
             .background(MaterialTheme.colorScheme.surface)
-            .height(48.dp),
-        contentAlignment = Alignment.CenterStart
+            .height(48.dp)
     ) {
         defaultText?.let {
             if (selectedItem == null || selectedItem.toString().isEmpty()) {
@@ -51,7 +52,7 @@ fun <E> CustomDropdownMenu(
                     text = defaultText,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 0.dp, 16.dp, 3.dp),
+                        .padding(16.dp, 0.dp),
                     color = MaterialTheme.colorScheme.onSurface.copy(.45f)
                 )
             }
