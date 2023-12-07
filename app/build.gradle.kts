@@ -79,4 +79,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
     implementation("com.google.android.gms:play-services-auth:20.4.1")
     implementation("io.coil-kt:coil-compose:2.2.2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 }
