@@ -388,6 +388,7 @@ fun ScaffoldScreen(
                     groupsState,
                     onGroupEvent,
                     scaffoldNavController,
+                    applicationContext,
                     mainNavController
                 )
             }

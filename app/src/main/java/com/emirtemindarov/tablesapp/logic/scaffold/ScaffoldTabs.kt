@@ -1,5 +1,6 @@
 package com.emirtemindarov.tablesapp.logic.scaffold
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -68,6 +69,7 @@ fun Tab2(
     onGameEvent: (GameEvent) -> Unit,
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
+    applicationContext: Context,
     mainNavController: NavHostController
     //sharedViewModel: ScaffoldViewModel
 ) {
@@ -92,6 +94,7 @@ fun Tab2(
         onGameEvent = onGameEvent,
         groupsState = groupsState,
         onGroupEvent = onGroupEvent,
+        applicationContext = applicationContext,
         mainNavController = mainNavController
         //sharedViewModel: ScaffoldViewModel
     )

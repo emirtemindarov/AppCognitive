@@ -16,15 +16,16 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddGroupDialog(
+fun RenameGroupDialog(
+    groupId: Int,
     groupsState: GroupsState,
-    onGroupEvent: (GroupEvent) -> Unit,
+    onEvent: (GroupEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {
-            onGroupEvent(GroupEvent.HideDialog)
+            onEvent(GroupEvent.HideDialog)
         },
         title = { Text(text = "Новая группа") },
         text = {
@@ -34,7 +35,7 @@ fun AddGroupDialog(
                 TextField(
                     value = groupsState.title,
                     onValueChange = {
-                        onGroupEvent(GroupEvent.SetTitle(it))
+                        onEvent(GroupEvent.SetTitle(it))
                     },
                     placeholder = {
                         Text(text = "Название")
@@ -48,7 +49,7 @@ fun AddGroupDialog(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Button(onClick = {
-                    onGroupEvent(GroupEvent.SaveGroup)
+                    onEvent(GroupEvent.RenameGroup(groupId, groupsState.title))
                 }) {
                     Text(text = "Создать")
                 }

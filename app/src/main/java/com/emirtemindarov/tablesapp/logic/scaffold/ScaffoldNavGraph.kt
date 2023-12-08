@@ -1,5 +1,6 @@
 package com.emirtemindarov.tablesapp.logic.scaffold
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -22,6 +23,7 @@ fun ScaffoldNavGraph(
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
     scaffoldNavController: NavHostController,
+    applicationContext: Context,
     mainNavController: NavHostController
 ) {
     NavHost(navController = scaffoldNavController, startDestination = "tabs") {
@@ -46,7 +48,8 @@ fun ScaffoldNavGraph(
                     onGameEvent,
                     groupsState,
                     onGroupEvent,
-                    mainNavController
+                    applicationContext,
+                    mainNavController,
                     //sharedViewModel
                 )
             }

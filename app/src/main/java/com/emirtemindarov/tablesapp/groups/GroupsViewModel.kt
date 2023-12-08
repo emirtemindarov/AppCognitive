@@ -1,5 +1,6 @@
 package com.emirtemindarov.tablesapp.groups
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,17 +38,28 @@ class GroupsViewModel(
 
     fun onEvent(event: GroupEvent) {
         when(event) {
-            is GroupEvent.DeleteGame -> {
+            is GroupEvent.DeleteGroup -> {
                 viewModelScope.launch {
+                    Log.d("GROUP", event.group.toString())
                     groupsDao.deleteGroup(event.group)
                 }
             }
-            GroupEvent.SaveGame -> {
+            is GroupEvent.RenameGroup -> {
+                viewModelScope.launch {
+                    Log.w("GROUP", "${event.id} | ${event.newTitle}")
+                    groupsDao.renameGroup(event.id, event.newTitle)
+                    _groupsState.update { it.copy(
+                        isRenamingGroup = false,
+                        title = ""
+                    ) }
+                }
+            }
+            GroupEvent.SaveGroup -> {
                 val title = groupsState.value.title
-                val color = "Red"/*groupsState.value.color*/            // !!!!
-                val expanded = false/*groupsState.value.expanded*/
+                val color = getRandomColor()            // TODO Выбор цвета
+                val expanded = false
 
-                if(title.isBlank() || color.isBlank()) {
+                if(title.isBlank()) {
                     return
                 }
 
@@ -57,13 +69,12 @@ class GroupsViewModel(
                     expanded = expanded
                 )
                 viewModelScope.launch {
-                    groupsDao.upsertGroup(group)
+                    Log.i("GROUP", group.toString())
+                    groupsDao.insertGroup(group)
                 }
                 _groupsState.update { it.copy(
                     isAddingGroup = false,
-                    title = "",
-                    color = "Red",
-                    expanded = false,
+                    title = ""
                 ) }
             }
 
@@ -83,7 +94,7 @@ class GroupsViewModel(
                 ) }
             }
 
-            is GroupEvent.SortGames -> {
+            is GroupEvent.SortGroups -> {
                 _groupsSortType.value = event.sortType
             }
             
@@ -97,7 +108,31 @@ class GroupsViewModel(
                     isAddingGroup = false
                 ) }
             }
+
+            GroupEvent.ShowRenameDialog -> {
+                _groupsState.update { it.copy(
+                    isRenamingGroup = true
+                ) }
+            }
+            GroupEvent.HideRenameDialog -> {
+                _groupsState.update { it.copy(
+                    isRenamingGroup = false
+                ) }
+            }
            
         }
+    }
+
+    private fun getRandomColor(): String {
+        return listOf(
+            "yellow",
+            "red",
+            "green",
+            "lightgray",
+            "blue",
+            "cyan",
+            "white",
+            "magenta"
+        ).random()
     }
 }

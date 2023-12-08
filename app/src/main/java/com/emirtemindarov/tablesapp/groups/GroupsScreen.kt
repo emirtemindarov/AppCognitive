@@ -1,5 +1,6 @@
 package com.emirtemindarov.tablesapp.groups
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,10 +23,14 @@ fun GroupsScreen(
     onGroupEvent: (GroupEvent) -> Unit,
     gamesState: GamesState,
     onGameEvent: (GameEvent) -> Unit,
+    applicationContext: Context,
     mainNavController: NavHostController
 ) {
     if (groupsState.isAddingGroup) {
-        AddGroupDialog(groupsState = groupsState, onGroupEvent = onGroupEvent)
+        AddGroupDialog(
+            groupsState = groupsState,
+            onGroupEvent = onGroupEvent
+        )
     }
 
     // Основа
@@ -85,7 +90,8 @@ fun GroupsScreen(
                 GroupListItem(
                     group,
                     groupsState,
-                    onGroupEvent
+                    onGroupEvent,
+                    applicationContext
                 )
             }
         }

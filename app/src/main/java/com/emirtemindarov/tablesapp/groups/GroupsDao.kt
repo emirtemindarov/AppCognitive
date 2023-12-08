@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GroupsDao {
     @Upsert
-    suspend fun upsertGroup(group: Group)
+    suspend fun insertGroup(group: Group)
+
+    @Query("UPDATE 'group' SET title = :title WHERE id = :id")
+    suspend fun renameGroup(id: Int, title: String)
 
     @Delete
     suspend fun deleteGroup(game: Group)
