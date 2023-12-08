@@ -39,23 +39,39 @@ import com.emirtemindarov.tablesapp.R
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesScreen
 import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.groups.GroupEvent
+import com.emirtemindarov.tablesapp.groups.GroupsScreen
+import com.emirtemindarov.tablesapp.groups.GroupsState
 
 @Composable
 fun Tab1(
     gamesState: GamesState,
-    onEvent: (GameEvent) -> Unit,
+    onGameEvent: (GameEvent) -> Unit,
+    groupsState: GroupsState,
+    onGroupEvent: (GroupEvent) -> Unit,
     mainNavController: NavHostController
+    //sharedViewModel: ScaffoldViewModel
 ) {
     GamesScreen(
         gamesState = gamesState,
-        onEvent = onEvent,
+        onGameEvent = onGameEvent,
+        groupsState = groupsState,
+        onGroupEvent = onGroupEvent,
         mainNavController = mainNavController
+        //sharedViewModel: ScaffoldViewModel
     )
 }
 
 @Composable
-fun Tab2(sharedViewModel: ScaffoldViewModel) {
-    Log.i("tab_2_button_before", "${sharedViewModel.scaffoldState}")
+fun Tab2(
+    gamesState: GamesState,
+    onGameEvent: (GameEvent) -> Unit,
+    groupsState: GroupsState,
+    onGroupEvent: (GroupEvent) -> Unit,
+    mainNavController: NavHostController
+    //sharedViewModel: ScaffoldViewModel
+) {
+    /*Log.i("tab_2_button_before", "${sharedViewModel.scaffoldState}")
     val collectedState by sharedViewModel.scaffoldState.collectAsStateWithLifecycle()
     Log.i("tab_2_button_before_counter", "${collectedState.counter}")
     Column {
@@ -69,16 +85,27 @@ fun Tab2(sharedViewModel: ScaffoldViewModel) {
         }) {
             Text(text = "Вкладка2Прибавить")
         }
-    }
+    }*/
+
+    GroupsScreen(
+        gamesState = gamesState,
+        onGameEvent = onGameEvent,
+        groupsState = groupsState,
+        onGroupEvent = onGroupEvent,
+        mainNavController = mainNavController
+        //sharedViewModel: ScaffoldViewModel
+    )
 }
 
 @Composable
 fun Tab3(
     userData: UserData?,
     onSignOut: () -> Unit,
-    sharedViewModel: ScaffoldViewModel
+    //sharedViewModel: ScaffoldViewModel
 ) {
-    Log.i("tab_3_button_before", "${sharedViewModel.scaffoldState}")
+    //Log.i("tab_3_button_before", "${sharedViewModel.scaffoldState}")
+
+    // TODO создать отдельный @Composable
 
     val showDialog = remember { mutableStateOf(false) }
     val openDialog: () -> Unit = {

@@ -1,4 +1,4 @@
-package com.emirtemindarov.tablesapp.games
+package com.emirtemindarov.tablesapp.groups
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,46 +16,28 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddGameDialog(
-    gamesState: GamesState,
-    onGameEvent: (GameEvent) -> Unit,
+fun AddGroupDialog(
+    groupsState: GroupsState,
+    onGroupEvent: (GroupEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {
-            onGameEvent(GameEvent.HideDialog)
+            onGroupEvent(GroupEvent.HideDialog)
         },
-        title = { Text(text = "Add contact") },
+        title = { Text(text = "Add group") },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TextField(
-                    value = gamesState.title,
+                    value = groupsState.title,
                     onValueChange = {
-                        onGameEvent(GameEvent.SetTitle(it))
+                        onGroupEvent(GroupEvent.SetTitle(it))
                     },
                     placeholder = {
-                        Text(text = "First name")
-                    }
-                )
-                TextField(
-                    value = gamesState.description,
-                    onValueChange = {
-                        onGameEvent(GameEvent.SetDescription(it))
-                    },
-                    placeholder = {
-                        Text(text = "Last name")
-                    }
-                )
-                TextField(
-                    value = gamesState.difficulty,
-                    onValueChange = {
-                        onGameEvent(GameEvent.SetDifficulty(it))
-                    },
-                    placeholder = {
-                        Text(text = "Phone number")
+                        Text(text = "Title")
                     }
                 )
             }
@@ -66,7 +48,7 @@ fun AddGameDialog(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Button(onClick = {
-                    onGameEvent(GameEvent.SaveGame)
+                    onGroupEvent(GroupEvent.SaveGame)
                 }) {
                     Text(text = "Save")
                 }

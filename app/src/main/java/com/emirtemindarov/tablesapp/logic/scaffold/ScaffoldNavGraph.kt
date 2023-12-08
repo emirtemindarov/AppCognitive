@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.groups.GroupEvent
+import com.emirtemindarov.tablesapp.groups.GroupsState
 import com.emirtemindarov.tablesapp.helpers.getSharedViewModel
 import com.emirtemindarov.tablesapp.logic.login.UserData
 
@@ -16,30 +18,46 @@ fun ScaffoldNavGraph(
     userData: UserData?,
     onSignOut: () -> Unit,
     gamesState: GamesState,
-    onEvent: (GameEvent) -> Unit,
+    onGameEvent: (GameEvent) -> Unit,
+    groupsState: GroupsState,
+    onGroupEvent: (GroupEvent) -> Unit,
     scaffoldNavController: NavHostController,
     mainNavController: NavHostController
 ) {
     NavHost(navController = scaffoldNavController, startDestination = "tabs") {
         navigation(route = "tabs", startDestination = "tab_1") {
             composable("tab_1") { entry ->
-                val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
-                Log.i("snc_Tab1", "${sharedViewModel}")
+                /*val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
+                Log.i("snc_Tab1", "$sharedViewModel")*/
                 Tab1(
                     gamesState,
-                    onEvent,
+                    onGameEvent,
+                    groupsState,
+                    onGroupEvent,
                     mainNavController
+                    //sharedViewModel
                 )
             }
             composable("tab_2") { entry ->
-                val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
-                Log.i("snc_Tab2", "${sharedViewModel}")
-                Tab2(sharedViewModel)
+                /*val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
+                Log.i("snc_Tab2", "$sharedViewModel")*/
+                Tab2(
+                    gamesState,
+                    onGameEvent,
+                    groupsState,
+                    onGroupEvent,
+                    mainNavController
+                    //sharedViewModel
+                )
             }
             composable("tab_3") { entry ->
-                val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
-                Log.i("snc_Tab3", "${sharedViewModel}")
-                Tab3(userData, onSignOut, sharedViewModel)
+                /*val sharedViewModel = entry.getSharedViewModel<ScaffoldViewModel>(scaffoldNavController)
+                Log.i("snc_Tab3", "$sharedViewModel")*/
+                Tab3(
+                    userData,
+                    onSignOut,
+                    //sharedViewModel
+                )
             }
         }
     }

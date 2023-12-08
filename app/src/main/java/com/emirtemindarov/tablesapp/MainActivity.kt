@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.emirtemindarov.tablesapp.database.AppDatabase
 import com.emirtemindarov.tablesapp.games.GamesViewModel
+import com.emirtemindarov.tablesapp.groups.GroupsViewModel
 import com.emirtemindarov.tablesapp.logic.MainNavGraph
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.emirtemindarov.tablesapp.ui.theme.TablesAppTheme
@@ -30,12 +31,13 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             AppDatabase::class.java,
             "app.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     private val database = Firebase.database("https://appcognitive-6948f-default-rtdb.europe-west1.firebasedatabase.app/")
     private val usersRef = database.getReference("users")
-    //private val gamesRef = database.getReference("games")
+    //private val otherRef = database.getReference("other")
 
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
@@ -49,6 +51,16 @@ class MainActivity : ComponentActivity() {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel/*?*/> create(modelClass: Class<T>): T {   // !!!!
                     return GamesViewModel(db.gamesDao) as T
+                }
+            }
+        }
+    )
+
+    private val groupsViewModel by viewModels<GroupsViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel/*?*/> create(modelClass: Class<T>): T {   // !!!!
+                    return GroupsViewModel(db.groupsDao) as T
                 }
             }
         }
@@ -71,12 +83,15 @@ class MainActivity : ComponentActivity() {
                 })
 
                 val gamesState by gamesViewModel.gameState.collectAsState()
+                val groupsState by groupsViewModel.groupsState.collectAsState()
                 MainNavGraph(
                     usersRef,
                     applicationContext,
                     googleAuthUiClient,
                     gamesState,
-                    onEvent = gamesViewModel::onEvent
+                    onGameEvent = gamesViewModel::onEvent,
+                    groupsState,
+                    onGroupEvent = groupsViewModel::onEvent
                 )
             }
         }

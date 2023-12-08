@@ -44,6 +44,8 @@ import coil.compose.AsyncImage
 import com.emirtemindarov.tablesapp.R
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.groups.GroupEvent
+import com.emirtemindarov.tablesapp.groups.GroupsState
 import com.emirtemindarov.tablesapp.helpers.ContextMenuWrapper
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.google.firebase.FirebaseError
@@ -61,7 +63,9 @@ fun ScaffoldScreen(
     googleAuthUiClient: GoogleAuthUiClient,
     usersRef: DatabaseReference,
     gamesState: GamesState,
-    onEvent: (GameEvent) -> Unit,
+    onGameEvent: (GameEvent) -> Unit,
+    groupsState: GroupsState,
+    onGroupEvent: (GroupEvent) -> Unit,
     mainNavController: NavHostController,
     scaffoldNavController: NavHostController = rememberNavController()
 ) {
@@ -85,6 +89,7 @@ fun ScaffoldScreen(
         }
     }
 
+    // TODO Firebase
     usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             userData?.let {
@@ -304,7 +309,7 @@ fun ScaffoldScreen(
         // Будет работать на всех вкладках, а надо отдельно
         /*floatingActionButton = {
             FloatingActionButton(onClick = {
-                onEvent(GameEvent.ShowDialog)
+                onGameEvent(GameEvent.ShowDialog)
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -379,7 +384,9 @@ fun ScaffoldScreen(
                     userData,
                     onSignOut,
                     gamesState,
-                    onEvent,
+                    onGameEvent,
+                    groupsState,
+                    onGroupEvent,
                     scaffoldNavController,
                     mainNavController
                 )
