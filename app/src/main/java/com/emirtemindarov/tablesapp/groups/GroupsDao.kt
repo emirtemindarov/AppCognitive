@@ -8,9 +8,6 @@ interface GroupsDao {
     @Upsert
     suspend fun insertGroup(group: Group)
 
-    @Query("UPDATE 'group' SET title = :title WHERE id = :id")
-    suspend fun renameGroup(id: Int, title: String)
-
     @Delete
     suspend fun deleteGroup(game: Group)
 
@@ -22,4 +19,10 @@ interface GroupsDao {
 
     @Query("SELECT * FROM 'group' ORDER BY title Desc")
     fun getGroupsOrderedByTitleDesc(): Flow<List<Group>>
+
+    @Query("UPDATE 'group' SET title = :title WHERE id = :id")
+    suspend fun renameGroup(id: Int, title: String)
+
+    @Query("UPDATE 'group' SET expanded = NOT expanded WHERE id = :id")
+    suspend fun updateExpanded(id: Int)
 }

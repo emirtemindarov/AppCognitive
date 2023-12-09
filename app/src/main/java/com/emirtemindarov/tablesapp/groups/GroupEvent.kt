@@ -5,7 +5,6 @@ sealed interface GroupEvent {
 
     data class SortGroups(val sortType: GroupsSortType): GroupEvent
     data class DeleteGroup(val group: Group): GroupEvent
-    data class RenameGroup(val id: Int, val newTitle: String): GroupEvent
 
     object ShowDialog: GroupEvent
     object HideDialog: GroupEvent
@@ -13,6 +12,8 @@ sealed interface GroupEvent {
     object HideRenameDialog: GroupEvent
 
     data class SetTitle(val newTitle: String): GroupEvent
-    data class SetColor(val newColor: String): GroupEvent
-    data class SetExpanded(val newExpanded: Boolean): GroupEvent
+    data class RenameGroup(val id: Int, val newTitle: String): GroupEvent
+    // TODO потом
+    //data class SetColor(val newColor: String): GroupEvent
+    data class UpdateExpanded(val id: Int): GroupEvent
 }

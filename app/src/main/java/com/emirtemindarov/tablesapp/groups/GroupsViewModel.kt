@@ -83,15 +83,29 @@ class GroupsViewModel(
                     title = event.newTitle
                 ) }
             }
-            is GroupEvent.SetColor -> {
+
+            // TODO для выбора цвета при создании
+            /*is GroupEvent.SetColor -> {
                 _groupsState.update { it.copy(
                     color = event.newColor
                 ) }
             }
-            is GroupEvent.SetExpanded -> {
-                _groupsState.update { it.copy(
-                    expanded = event.newExpanded
-                ) }
+            is GroupEvent.UpdateColor -> {
+                viewModelScope.launch {
+                    Log.w("GROUP", "${event.id} | ${event.newTitle}")
+                    groupsDao.renameGroup(event.id, event.newTitle)
+                    _groupsState.update { it.copy(
+                        isRenamingGroup = false,
+                        title = ""
+                    ) }
+                }
+            }*/
+
+            is GroupEvent.UpdateExpanded -> {
+                viewModelScope.launch {
+                    Log.w("Switch", "${event.id}")
+                    groupsDao.updateExpanded(event.id)
+                }
             }
 
             is GroupEvent.SortGroups -> {
