@@ -10,6 +10,8 @@ data class GroupsState(
     val color: String = "",
     val expanded: Boolean = false,
 
+    val currentGroupId: Int = -1,
+
     val isAddingGroup: Boolean = false,
     val isRenamingGroup: Boolean = false,
 

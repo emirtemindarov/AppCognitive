@@ -56,15 +56,6 @@ fun GroupListItem(
     onEvent: (GroupEvent) -> Unit,
     applicationContext: Context
 ) {
-
-    if (groupsState.isRenamingGroup) {
-        RenameGroupDialog(
-            groupId = group.id,
-            groupsState = groupsState,
-            onEvent = onEvent
-        )
-    }
-
     // Вызов и закрытие контекстного меню щаголовка группы
     var expandedContextMenu by remember { mutableStateOf(false) }
     val expandContextMenu: () -> Unit = {
@@ -75,7 +66,9 @@ fun GroupListItem(
     }
 
     // Контекстное меню заголовка группы
-    val groupTitleRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { r_Group: Group, r_OnEvent: (GroupEvent) -> Unit ->
+    val groupTitleRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { rGroup: Group, rOnEvent: (GroupEvent) -> Unit ->
+        Log.i("GROUP DETAILS LAMBDA", "$rGroup")
+
         RawContextMenu(
             expanded = expandedContextMenu,
             collapse = collapse,
@@ -121,7 +114,7 @@ fun GroupListItem(
                         }
                     },
                     action = {
-                        r_OnEvent(GroupEvent.ShowRenameDialog)
+                        rOnEvent(GroupEvent.ShowRenameDialog)
                     }
                 ),
 
@@ -144,10 +137,10 @@ fun GroupListItem(
                     action = {
                         Toast.makeText(
                             applicationContext,
-                            "Группа удалена: ${r_Group.title}",
+                            "Группа удалена: ${rGroup.title}",
                             Toast.LENGTH_LONG
                         ).show()
-                        r_OnEvent(GroupEvent.DeleteGroup(r_Group))
+                        rOnEvent(GroupEvent.DeleteGroup(rGroup))
                     },
                     divider = true
                 )
@@ -166,7 +159,7 @@ fun GroupListItem(
     }
 
     // Контекстное меню ссылки на задачу
-    val gameRefRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { r_Group: Group, r_OnEvent: (GroupEvent) -> Unit ->
+    val gameRefRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { rGroup: Group, rOnEvent: (GroupEvent) -> Unit ->
         RawContextMenu(
             expanded = expandedGameRefContextMenu,
             collapse = collapseGameRefContextMenu,
@@ -191,7 +184,7 @@ fun GroupListItem(
                     action = {
                         Toast.makeText(
                             applicationContext,
-                            "Задача {r_Game.title} удалена из группы ${r_Group.title}",
+                            "Задача {r_Game.title} удалена из группы ${rGroup.title}",
                             Toast.LENGTH_LONG
                         ).show()
                         // TODO r_OnCrossRefEvent(GroupEvent.DeleteRef(r_Game))
@@ -231,6 +224,7 @@ fun GroupListItem(
     }*/
 
         if (expandedContextMenu) {
+            Log.i("GROUP MENU BEFORE INVOKE", "$group")
             groupTitleRawContextMenu.invoke(group, onEvent)
         }
 
@@ -260,7 +254,11 @@ fun GroupListItem(
                             //onPress = { /* Called when the gesture starts */ },
                             onTap = { onEvent(GroupEvent.UpdateExpanded(group.id)) },
                             //onDoubleTap = { /* Called on Double Tap */ },
-                            onLongPress = { expandContextMenu.invoke() },
+                            onLongPress = {
+                                onEvent(GroupEvent.SetCurrentGroup(group.id, group.title))
+                                Log.i("GROUP SET CURRENT", "${group.id} = ${groupsState.currentGroupId}")
+                                expandContextMenu.invoke()
+                            },
                         )
                     }
             ) {

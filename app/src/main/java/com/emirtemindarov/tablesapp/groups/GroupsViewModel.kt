@@ -46,7 +46,7 @@ class GroupsViewModel(
             }
             is GroupEvent.RenameGroup -> {
                 viewModelScope.launch {
-                    Log.w("GROUP", "${event.id} | ${event.newTitle}")
+                    Log.w("GROUP RENAMED", "${event.id} | ${event.newTitle}")
                     groupsDao.renameGroup(event.id, event.newTitle)
                     _groupsState.update { it.copy(
                         isRenamingGroup = false,
@@ -131,6 +131,13 @@ class GroupsViewModel(
             GroupEvent.HideRenameDialog -> {
                 _groupsState.update { it.copy(
                     isRenamingGroup = false
+                ) }
+            }
+
+            is GroupEvent.SetCurrentGroup -> {
+                _groupsState.update { it.copy(
+                    currentGroupId = event.groupId,
+                    title = event.groupTitle
                 ) }
             }
            

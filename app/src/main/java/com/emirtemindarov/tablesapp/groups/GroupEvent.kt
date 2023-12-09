@@ -1,6 +1,7 @@
 package com.emirtemindarov.tablesapp.groups
 
 sealed interface GroupEvent {
+
     object SaveGroup: GroupEvent
 
     data class SortGroups(val sortType: GroupsSortType): GroupEvent
@@ -16,4 +17,6 @@ sealed interface GroupEvent {
     // TODO потом
     //data class SetColor(val newColor: String): GroupEvent
     data class UpdateExpanded(val id: Int): GroupEvent
+
+    data class SetCurrentGroup(val groupId: Int, val groupTitle: String) : GroupEvent
 }
