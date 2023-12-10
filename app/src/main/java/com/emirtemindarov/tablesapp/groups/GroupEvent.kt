@@ -11,6 +11,8 @@ sealed interface GroupEvent {
     object HideDialog: GroupEvent
     object ShowRenameDialog: GroupEvent
     object HideRenameDialog: GroupEvent
+    object ShowSortDialog: GroupEvent
+    object HideSortDialog: GroupEvent
 
     data class SetTitle(val newTitle: String): GroupEvent
     data class RenameGroup(val id: Int, val newTitle: String): GroupEvent

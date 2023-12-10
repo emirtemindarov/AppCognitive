@@ -111,6 +111,17 @@ class GamesViewModel(
                     isAddingGame = false
                 ) }
             }
+
+            GameEvent.ShowSortDialog -> {
+                _gameState.update { it.copy(
+                    isSortingGames = true
+                ) }
+            }
+            GameEvent.HideSortDialog -> {
+                _gameState.update { it.copy(
+                    isSortingGames = false
+                ) }
+            }
            
         }
     }

@@ -16,7 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -165,7 +167,7 @@ fun ScaffoldScreen(
                                                 horizontalArrangement = Arrangement.Start
                                             ) {
                                                 Icon(
-                                                    painter = painterResource(id = R.drawable.baseline_announcement_24),
+                                                    Icons.Default.List,
                                                     contentDescription = "Dropdown item"
                                                 )
                                                 Spacer(modifier = Modifier.width(10.dp))
@@ -173,11 +175,7 @@ fun ScaffoldScreen(
                                             }
                                         },
                                         action = {
-                                            Toast.makeText(
-                                                applicationContext,
-                                                "Cработало первое действие",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                             // TODO onGameEvent(GameEvent.ShowSortDialog)
                                         },
                                     ),
                                     ContextMenuItemContent(
@@ -187,11 +185,12 @@ fun ScaffoldScreen(
                                                 horizontalArrangement = Arrangement.Start
                                             ) {
                                                 Icon(
-                                                    painter = painterResource(id = R.drawable.baseline_announcement_24),
-                                                    contentDescription = "Dropdown item"
+                                                    Icons.Default.Info,
+                                                    contentDescription = "Dropdown item",
+                                                    tint = Color.Black.copy(0.6f)
                                                 )
                                                 Spacer(modifier = Modifier.width(10.dp))
-                                                Text(text = "Руководство")
+                                                Text(text = "Информация")
                                             }
                                         },
                                         action = {
@@ -225,19 +224,15 @@ fun ScaffoldScreen(
                                             horizontalArrangement = Arrangement.Start
                                         ) {
                                             Icon(
-                                                painter = painterResource(id = R.drawable.baseline_announcement_24),
-                                                contentDescription = "Dropdown item"
+                                                Icons.Default.List,
+                                                contentDescription = "Show sort dialog"
                                             )
                                             Spacer(modifier = Modifier.width(10.dp))
                                             Text(text = "Сортировать")
                                         }
                                     },
                                     action = {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Cработало первое действие",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        onGroupEvent(GroupEvent.ShowSortDialog)
                                     },
                                 ),
                                 ContextMenuItemContent(
@@ -247,11 +242,12 @@ fun ScaffoldScreen(
                                             horizontalArrangement = Arrangement.Start
                                         ) {
                                             Icon(
-                                                painter = painterResource(id = R.drawable.baseline_announcement_24),
-                                                contentDescription = "Dropdown item"
+                                                Icons.Default.Info,
+                                                contentDescription = "Dropdown item",
+                                                tint = Color.Black.copy(0.6f)
                                             )
                                             Spacer(modifier = Modifier.width(10.dp))
-                                            Text(text = "Руководство")
+                                            Text(text = "Информация")
                                         }
                                     },
                                     action = {

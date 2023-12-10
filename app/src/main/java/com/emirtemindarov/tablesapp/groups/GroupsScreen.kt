@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -38,6 +40,13 @@ fun GroupsScreen(
         )
     }
 
+    if (groupsState.isSortingGroups) {
+        SortGroupsDialog(
+            groupsState = groupsState,
+            onEvent = onGroupEvent
+        )
+    }
+
     if (groupsState.isRenamingGroup) {
         RenameGroupDialog(
             groupId = groupsState.currentGroupId,
@@ -48,34 +57,6 @@ fun GroupsScreen(
 
     // Основа
     Column {
-
-        /* метод сортировки
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                verticalAlignment = CenterVertically
-            ) {
-                GamesSortType.values().forEach { sortType ->
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                onEvent(GameEvent.SortGames(sortType))
-                            },
-                        verticalAlignment = CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = gamesState.sortType == sortType,
-                            onClick = {
-                                onEvent(GameEvent.SortGames(sortType))
-                            }
-                        )
-                        Text(text = sortType.name)
-                    }
-                }
-            }
-        }*/
 
         /*
         var sliderPosition by remember { mutableStateOf(0f) }
@@ -89,6 +70,25 @@ fun GroupsScreen(
             }
         }
         */
+
+        // Кнопка добавления группы
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(onClick = {
+                onGroupEvent(GroupEvent.ShowDialog)
+            }) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Add, "Add group")
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Создать группу")
+                }
+            }
+        }
 
         LazyColumn(
             //state = listState,
@@ -127,7 +127,7 @@ fun GroupsScreen(
 
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (true) {
+        if (false) {
             Column(
                 modifier = Modifier
                     .weight(0.1f)

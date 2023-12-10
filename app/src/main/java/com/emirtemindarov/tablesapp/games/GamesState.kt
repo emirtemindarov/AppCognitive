@@ -13,6 +13,7 @@ data class GamesState(
     val bestScore: Int = 0,
 
     val isAddingGame: Boolean = false,
+    val isSortingGames: Boolean = false,
 
     // Нет: если внести это в Game, то метод сортировки будет сохранятся
     val sortType: GamesSortType = GamesSortType.DEFAULT

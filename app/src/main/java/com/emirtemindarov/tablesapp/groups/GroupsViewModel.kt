@@ -130,7 +130,20 @@ class GroupsViewModel(
             }
             GroupEvent.HideRenameDialog -> {
                 _groupsState.update { it.copy(
-                    isRenamingGroup = false
+                    isRenamingGroup = false,
+                    currentGroupId = -1,
+                    title = ""
+                ) }
+            }
+
+            GroupEvent.ShowSortDialog -> {
+                _groupsState.update { it.copy(
+                    isSortingGroups = true
+                ) }
+            }
+            GroupEvent.HideSortDialog -> {
+                _groupsState.update { it.copy(
+                    isSortingGroups = false
                 ) }
             }
 
@@ -152,7 +165,6 @@ class GroupsViewModel(
             "lightgray",
             "blue",
             "cyan",
-            "white",
             "magenta"
         ).random()
     }

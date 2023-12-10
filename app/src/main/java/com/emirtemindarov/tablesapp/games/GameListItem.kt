@@ -101,7 +101,7 @@ fun GamesListItem(
         Column(modifier = Modifier
             .fillMaxSize()
             //.border(2.dp, Color.Magenta)
-            .background(color = Color.LightGray)
+            .background(color = MaterialTheme.colorScheme.primary)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -115,10 +115,12 @@ fun GamesListItem(
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 18.sp,
+                    color = Color.White,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
                     text = "Краткое описание, вкратце рассказывающее что нужно сделать",
+                    color = Color.White,
                     modifier = Modifier.padding(10.dp, 0.dp)
                 )
             }

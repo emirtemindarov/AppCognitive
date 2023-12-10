@@ -14,6 +14,7 @@ data class GroupsState(
 
     val isAddingGroup: Boolean = false,
     val isRenamingGroup: Boolean = false,
+    val isSortingGroups: Boolean = false,
 
     // Нет: если внести это в Game, то метод сортировки будет сохранятся
     val sortType: GroupsSortType = GroupsSortType.DEFAULT

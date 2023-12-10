@@ -60,34 +60,6 @@ fun GamesScreen(
     // Основа
     Column {
 
-        /* метод сортировки
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                verticalAlignment = CenterVertically
-            ) {
-                GamesSortType.values().forEach { sortType ->
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                onEvent(GameEvent.SortGames(sortType))
-                            },
-                        verticalAlignment = CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = gamesState.sortType == sortType,
-                            onClick = {
-                                onEvent(GameEvent.SortGames(sortType))
-                            }
-                        )
-                        Text(text = sortType.name)
-                    }
-                }
-            }
-        }*/
-
         /*
         var sliderPosition by remember { mutableStateOf(0f) }
         val listState = rememberLazyListState()
@@ -136,7 +108,7 @@ fun GamesScreen(
 
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (true) {
+        if (false) {
             Column(
                 modifier = Modifier
                     .weight(0.1f)

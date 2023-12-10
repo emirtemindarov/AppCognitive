@@ -7,6 +7,8 @@ sealed interface GameEvent {
 
     object ShowDialog: GameEvent
     object HideDialog: GameEvent
+    object ShowSortDialog: GameEvent
+    object HideSortDialog: GameEvent
 
     data class SetTitle(val newTitle: String): GameEvent
     data class SetDescription(val newDescription: String): GameEvent

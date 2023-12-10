@@ -296,44 +296,46 @@ fun GroupListItem(
 
             // TODO 1) crossref    2) items(group.gamesId) -> {
             // Блок ссылки на задачу
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    //.border(2.dp, Color.Black)
-                    .background(color = containerColorPale)
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            //onPress = { /* Called when the gesture starts */ },
-                            //onTap = { onCrossRefEvent(GroupEvent.NavigateAndOpen(gameRef.id)) },
-                            //onDoubleTap = { /* Called on Double Tap */ },
-                            onLongPress = { expandGameRefContextMenu.invoke() },
+            if (group.expanded) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        //.border(2.dp, Color.Black)
+                        .background(color = containerColorPale)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                //onPress = { /* Called when the gesture starts */ },
+                                //onTap = { onCrossRefEvent(GroupEvent.NavigateAndOpen(gameRef.id)) },
+                                //onDoubleTap = { /* Called on Double Tap */ },
+                                onLongPress = { expandGameRefContextMenu.invoke() },
+                            )
+                        }
+                ) {
+                    // Заголовок группы
+                    Text(
+                        text = group.title,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.SansSerif,
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .padding(start = 38.dp)
+                        //.border(2.dp, Color.Black)
+                    )
+                    // Иконка свернуть/развернуть
+                    Box(
+                        modifier = Modifier
+                            //.border(2.dp, Color.Black)
+                            .padding(end = 38.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.ArrowForward,
+                            contentDescription = "Список свернут",
+                            modifier = Modifier.size(20.dp)
                         )
                     }
-            ) {
-                // Заголовок группы
-                Text(
-                    text = group.title,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 18.sp,
-                    modifier = Modifier
-                        .padding(start = 38.dp)
-                        //.border(2.dp, Color.Black)
-                )
-                // Иконка свернуть/развернуть
-                Box(
-                    modifier = Modifier
-                        //.border(2.dp, Color.Black)
-                        .padding(end = 38.dp)
-                ) {
-                    Icon(
-                        Icons.Default.ArrowForward,
-                        contentDescription = "Список свернут",
-                        modifier = Modifier.size(20.dp)
-                    )
                 }
             }
         }
@@ -348,7 +350,6 @@ fun parseColor(color: String): Color {
         "lightgray" ->  Color.LightGray
         "blue" ->  Color.Blue
         "cyan" ->  Color.Cyan
-        "white" ->  Color.White
         "magenta" ->  Color.Magenta
         else -> {
             Log.i("Color", "Default color")
