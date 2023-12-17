@@ -10,4 +10,6 @@ sealed interface CrossRefEvent {
     // установка текущих значений в crossRefsState классе, для работы с ними через crossRefsViewModel
     data class SetGameId(val newGameId: Int): CrossRefEvent
     data class SetGroupId(val newGroupId: Int): CrossRefEvent
+
+    data class DeleteCrossRefsByGroupId(val groupId: Int): CrossRefEvent
 }

@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PreGameDialog(
+    game: Game,
     closeDialog: () -> Unit
 ) {
     AlertDialog(
@@ -76,7 +77,7 @@ fun PreGameDialog(
 
                 // Название
                 Text(
-                    text = "Название",
+                    text = game.title,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 18.sp,
@@ -126,7 +127,7 @@ fun PreGameDialog(
                     .heightIn(0.dp, 150.dp)
                 ) {
                     item {
-                        Text("Подробное описание правил, возможно прокручивающийся блок текста, также возможно, что текст описания может меняться в зависимости от выбранного уровня сложности.")
+                        Text(text = game.description)
                     }
                 }
 

@@ -32,9 +32,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +46,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.emirtemindarov.tablesapp.R
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
+import com.emirtemindarov.tablesapp.games.Game
+import com.emirtemindarov.tablesapp.games.GameEvent
+import com.emirtemindarov.tablesapp.games.GamesState
+import com.emirtemindarov.tablesapp.games.PreGameDialog
 import com.emirtemindarov.tablesapp.helpers.RawContextMenu
 import com.emirtemindarov.tablesapp.logic.scaffold.ContextMenuItemContent
 
@@ -54,8 +60,32 @@ fun GroupListItem(
     group: Group,
     groupsState: GroupsState,
     onEvent: (GroupEvent) -> Unit,
+    gamesState: GamesState,
+    onGameEvent: (GameEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     applicationContext: Context
 ) {
+
+    // Открытие диалогового окна задачи при нажатии на ссылки на задачу в списке группы (изначально нет определенной задачи)
+    var currentGame: Game? by remember { mutableStateOf(null) }
+    val setCurrentGame: (Game) -> Unit = { game ->
+        currentGame = game
+    }
+    var showDialog by remember { mutableStateOf(false) }
+    val openDialog: () -> Unit = {
+        showDialog = true
+    }
+    val closeDialog: () -> Unit = {
+        showDialog = false
+    }
+    if (showDialog) {
+        PreGameDialog(
+            currentGame!!,
+            closeDialog
+        )
+    }
+
     // Вызов и закрытие контекстного меню щаголовка группы
     var expandedContextMenu by remember { mutableStateOf(false) }
     val expandContextMenu: () -> Unit = {
@@ -65,6 +95,7 @@ fun GroupListItem(
         expandedContextMenu = false
     }
 
+    // TODO Переделать
     // Контекстное меню заголовка группы
     val groupTitleRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { rGroup: Group, rOnEvent: (GroupEvent) -> Unit ->
         Log.i("GROUP DETAILS LAMBDA", "$rGroup")
@@ -74,7 +105,8 @@ fun GroupListItem(
             collapse = collapse,
             dropdownMenuItems = listOf(
 
-                /*// TODO Перекидывать на первую вкладку для выбора одной задачи, нескольких задач или отмены выбора
+                // TODO? Перекидывать на первую вкладку для выбора одной задачи, нескольких задач или отмены выбора
+                // Элемент контекстного меню, при нажатии открывается диалоговое окно редактирования списка задач в группе
                 ContextMenuItemContent(
                     item = {
                         Row(
@@ -82,21 +114,18 @@ fun GroupListItem(
                             horizontalArrangement = Arrangement.Start
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_announcement_24),
-                                contentDescription = "Dropdown item"
+                                Icons.Default.Edit,
+                                contentDescription = "Изменить список задач группы"
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "Редактировать список")
                         }
                     },
                     action = {
-                        Toast.makeText(
-                            applicationContext,
-                            "Cработало первое действие",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        onCrossRefEvent(CrossRefEvent.SetGroupId(group.id))
+                        onCrossRefEvent(CrossRefEvent.ShowDialog)
                     },
-                ),*/
+                ),
 
                 // Редактирование группы (изменение названия группы)
                 ContextMenuItemContent(
@@ -115,7 +144,8 @@ fun GroupListItem(
                     },
                     action = {
                         rOnEvent(GroupEvent.ShowRenameDialog)
-                    }
+                    },
+                    divider = true
                 ),
 
                 // Удаление группы (TODO с диалоговым окном подтверждения)
@@ -141,6 +171,7 @@ fun GroupListItem(
                             Toast.LENGTH_LONG
                         ).show()
                         rOnEvent(GroupEvent.DeleteGroup(rGroup))
+                        onCrossRefEvent(CrossRefEvent.DeleteCrossRefsByGroupId(group.id))
                     },
                     divider = true
                 )
@@ -158,8 +189,9 @@ fun GroupListItem(
         expandedGameRefContextMenu = false
     }
 
+    // TODO Переделать
     // Контекстное меню ссылки на задачу
-    val gameRefRawContextMenu: @Composable (Group, (GroupEvent) -> Unit) -> Unit = { rGroup: Group, rOnEvent: (GroupEvent) -> Unit ->
+    val gameRefRawContextMenu: @Composable (Game, Group, (GroupEvent) -> Unit) -> Unit = { rGame: Game, rGroup: Group, rOnEvent: (GroupEvent) -> Unit ->
         RawContextMenu(
             expanded = expandedGameRefContextMenu,
             collapse = collapseGameRefContextMenu,
@@ -182,12 +214,13 @@ fun GroupListItem(
                         }
                     },
                     action = {
+                        Log.w("rGame.title", "Ошибка: ${rGame.title}")
                         Toast.makeText(
                             applicationContext,
-                            "Задача {r_Game.title} удалена из группы ${rGroup.title}",
-                            Toast.LENGTH_LONG
+                            "${rGame.title} удалена из ${rGroup.title}",
+                            Toast.LENGTH_SHORT
                         ).show()
-                        // TODO r_OnCrossRefEvent(GroupEvent.DeleteRef(r_Game))
+                        onCrossRefEvent(CrossRefEvent.DeleteCrossRef)
                     }
                 )
 
@@ -207,21 +240,6 @@ fun GroupListItem(
             .clip(RoundedCornerShape(15.dp))
     ) {
 
-    /*Column(
-        modifier = Modifier.weight(1f)
-    ) {
-        Text(
-            text = "${game.title} ${game.description}",
-            fontSize = 20.sp
-        )
-        Text(text = game.difficulty, fontSize = 12.sp)
-    }*/
-
-    /*IconButton(onClick = {
-        onEvent(GameEvent.DeleteGame(game))
-    }) {
-        Icon(Icons.Default.Delete, "Delete games")
-    }*/
 
         if (expandedContextMenu) {
             Log.i("GROUP MENU BEFORE INVOKE", "$group")
@@ -229,7 +247,13 @@ fun GroupListItem(
         }
 
         if (expandedGameRefContextMenu) {
-            gameRefRawContextMenu.invoke(group, onEvent)
+            gameRefRawContextMenu.invoke(
+                gamesState.gamesList.find { game ->
+                    game.id == crossRefsState.gameId
+                }!!,
+                group,
+                onEvent
+            )
         }
 
         // Контейнер заголовка и ссылок на задачи
@@ -294,48 +318,68 @@ fun GroupListItem(
                 }
             }
 
-            // TODO 1) crossref    2) items(group.gamesId) -> {
             // Блок ссылки на задачу
             if (group.expanded) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        //.border(2.dp, Color.Black)
-                        .background(color = containerColorPale)
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                //onPress = { /* Called when the gesture starts */ },
-                                //onTap = { onCrossRefEvent(GroupEvent.NavigateAndOpen(gameRef.id)) },
-                                //onDoubleTap = { /* Called on Double Tap */ },
-                                onLongPress = { expandGameRefContextMenu.invoke() },
-                            )
-                        }
-                ) {
-                    // Заголовок группы
-                    Text(
-                        text = group.title,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.SansSerif,
-                        fontSize = 18.sp,
+                crossRefsState.crossRefsList.filter { crossRef ->
+                    crossRef.groupId == group.id
+                }.forEach { crossRef ->
+
+                    // найденная игра по gameId (find всегда найдет задачу)
+                    val game = gamesState.gamesList.find { game -> game.id == crossRef.gameId }!!
+
+                    // ссылка на задачу
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(start = 38.dp)
-                        //.border(2.dp, Color.Black)
-                    )
-                    // Иконка свернуть/развернуть
-                    Box(
-                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(80.dp)
                             //.border(2.dp, Color.Black)
-                            .padding(end = 38.dp)
+                            .background(color = containerColorPale)
+                            .pointerInput(Unit) {
+                                detectTapGestures(
+                                    //onPress = { /* Called when the gesture starts */ },
+                                    onTap = {
+                                        setCurrentGame.invoke(game)
+                                        openDialog.invoke()
+                                    },
+                                    //onDoubleTap = { /* Called on Double Tap */ },
+                                    onLongPress = {
+                                        onCrossRefEvent(CrossRefEvent.SetGroupId(group.id))
+                                        onCrossRefEvent(CrossRefEvent.SetGameId(game.id))
+                                        expandGameRefContextMenu.invoke()
+                                    },
+                                )
+                            }
                     ) {
-                        Icon(
-                            Icons.Default.ArrowForward,
-                            contentDescription = "Список свернут",
-                            modifier = Modifier.size(20.dp)
+                        // Заголовок группы
+                        Text(
+                            text = game.title,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif,
+                            fontSize = 18.sp,
+                            modifier = Modifier
+                                .padding(start = 38.dp)
+                            //.border(2.dp, Color.Black)
                         )
+                        // Иконка свернуть/развернуть
+                        Box(
+                            modifier = Modifier
+                                //.border(2.dp, Color.Black)
+                                .padding(end = 38.dp)
+                        ) {
+
+                            // TODO AnimatedVisibility
+
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                contentDescription = "Список свернут",
+                                modifier = Modifier.size(20.dp)
+                            )
+
+                        }
                     }
+
                 }
             }
         }

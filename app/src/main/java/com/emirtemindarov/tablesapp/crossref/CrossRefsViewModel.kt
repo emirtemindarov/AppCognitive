@@ -70,6 +70,13 @@ class CrossRefViewModel(
                 ) }*/
             }
 
+            is CrossRefEvent.DeleteCrossRefsByGroupId -> {
+                viewModelScope.launch {
+                    crossRefDao.deleteCrossRefsByGroupId(event.groupId)
+                }
+                Log.i("delete crossRefs", "groupId: ${event.groupId} - deleted -> deleted binded crossRefs")
+            }
+
             is CrossRefEvent.SetGameId -> {
                 _crossRefsState.update { it.copy(
                     gameId = event.newGameId

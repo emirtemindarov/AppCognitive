@@ -45,33 +45,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.emirtemindarov.tablesapp.games.Game
 import com.emirtemindarov.tablesapp.games.GameEvent
+import com.emirtemindarov.tablesapp.games.GamesState
 import com.emirtemindarov.tablesapp.groups.GroupEvent
 import com.emirtemindarov.tablesapp.groups.GroupsState
 import com.emirtemindarov.tablesapp.groups.parseColor
 import com.emirtemindarov.tablesapp.helpers.conditional
 
 @Composable
-fun AddGameToGroupsDialog(
-    gameId: Int,
-    groupsState: GroupsState,
-    onGroupEvent: (GroupEvent) -> Unit,
+fun IncludeGamesIntoGroupDialog(
+    groupId: Int,
+    gamesState: GamesState,
+    onGameEvent: (GameEvent) -> Unit,
     crossRefsState: CrossRefsState,
     onCrossRefEvent: (CrossRefEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // выполнить поиск из crossRefsState всех записей с определенным gameId
+    // выполнить поиск из crossRefsState всех записей с определенным groupId
     Log.d("crossRefs List", "${crossRefsState.crossRefsList}")
     val filteredCrossRefs = crossRefsState.crossRefsList.filter {
-        Log.w("filter by gameId", "filter by gameId: $gameId")
-        it.gameId == gameId
+        Log.w("filter by groupId", "filter by groupId: $groupId")
+        it.groupId == groupId
     }
     Log.d("Filtered CrossRefs", "$filteredCrossRefs")
-    val selectedGroupsIdList = remember { mutableSetOf<Int>() }
+    val selectedGamesIdList = remember { mutableSetOf<Int>() }
     filteredCrossRefs.forEach { crossRef ->
-        Log.w("adding filtered", "adding groupId of filtered crossRefs to selected list. groupId: ${crossRef.groupId}")
-        selectedGroupsIdList.add(crossRef.groupId)
+        Log.w("adding filtered", "adding gameId of filtered crossRefs to selected list. gameId: ${crossRef.gameId}")
+        selectedGamesIdList.add(crossRef.gameId)
     }
-    Log.d("Selected GroupsId List", "$selectedGroupsIdList")
+    Log.d("Selected GroupsId List", "$selectedGamesIdList")
 
 
 
@@ -81,7 +82,7 @@ fun AddGameToGroupsDialog(
         onDismissRequest = {
             onCrossRefEvent(CrossRefEvent.HideDialog)
         },
-        title = { Text(text = "Отметьте группы") },
+        title = { Text(text = "Добавьте задачи") },
         text = {
 
             LazyColumn(
@@ -90,10 +91,10 @@ fun AddGameToGroupsDialog(
             ) {
 
 
-                // отображение списка групп
-                items(groupsState.groupsList) { group ->
+                // отображение списка задач
+                items(gamesState.gamesList) { game ->
 
-                    var selected by remember { mutableStateOf(selectedGroupsIdList.contains(group.id)) }
+                    var selected by remember { mutableStateOf(selectedGamesIdList.contains(game.id)) }
                     Column(
                         modifier = modifier
                             .fillMaxWidth()
@@ -110,18 +111,18 @@ fun AddGameToGroupsDialog(
                             // добавление ссылки на задачу в группу
                             .clickable {
                                 selected = !selected   // верно
-                                Log.i("SELECTED value", "group${group.id} selected: $selected")
-                                onCrossRefEvent(CrossRefEvent.SetGameId(gameId))
+                                Log.i("SELECTED value", "group${game.id} selected: $selected")
+                                onCrossRefEvent(CrossRefEvent.SetGameId(game.id))
                                 Log.d("crossRefState gameId", "crossRefState gameId: ${crossRefsState.gameId}")
-                                onCrossRefEvent(CrossRefEvent.SetGroupId(group.id))
+                                onCrossRefEvent(CrossRefEvent.SetGroupId(groupId))
                                 Log.d("crossRefState groupId", "crossRefState groupId: ${crossRefsState.groupId}")
                                 if (selected) {
-                                    selectedGroupsIdList.add(group.id)
-                                    Log.i("id added", "added: ${group.id} | Full list: $selectedGroupsIdList")
+                                    selectedGamesIdList.add(game.id)
+                                    Log.i("id added", "added: ${game.id} | Full list: $selectedGamesIdList")
                                     onCrossRefEvent(CrossRefEvent.SaveCrossRef)
                                 } else {
-                                    selectedGroupsIdList.remove(group.id)
-                                    Log.i("id removed", "removed: ${group.id} | Full list: $selectedGroupsIdList")
+                                    selectedGamesIdList.remove(game.id)
+                                    Log.i("id removed", "removed: ${game.id} | Full list: $selectedGamesIdList")
                                     onCrossRefEvent(CrossRefEvent.DeleteCrossRef)
                                 }
                             }
@@ -138,15 +139,15 @@ fun AddGameToGroupsDialog(
                                 horizontalArrangement = Arrangement.Center,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Column(
+                                /*Column(
                                     modifier = modifier
                                         .size(25.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(parseColor(group.color).copy(0.8f))
-                                ) {}
+                                        .background(parseColor(game.color).copy(0.8f))
+                                ) {}*/
                                 Spacer(modifier = modifier.width(12.dp))
                                 Column {
-                                    Text(text = group.title)
+                                    Text(text = game.title)
                                 }
                             }
                             Row {
@@ -196,3 +197,4 @@ fun AddGameToGroupsDialog(
         }
     )
 }
+

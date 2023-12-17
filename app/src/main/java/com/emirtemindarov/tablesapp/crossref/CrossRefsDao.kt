@@ -12,6 +12,9 @@ interface CrossRefsDao {
     @Query("DELETE FROM crossRef WHERE gameId = :gameId AND groupId = :groupId")
     suspend fun deleteCrossRef(gameId: Int, groupId: Int)
 
+    @Query("DELETE FROM crossRef WHERE groupId = :groupId")
+    suspend fun deleteCrossRefsByGroupId(groupId: Int)
+
     @Query("SELECT * FROM crossRef")
     fun getCrossRefs(): Flow<List<CrossRef>>
 
