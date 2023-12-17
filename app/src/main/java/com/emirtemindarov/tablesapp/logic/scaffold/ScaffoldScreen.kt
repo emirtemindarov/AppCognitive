@@ -44,6 +44,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.emirtemindarov.tablesapp.R
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesState
 import com.emirtemindarov.tablesapp.groups.GroupEvent
@@ -68,6 +70,8 @@ fun ScaffoldScreen(
     onGameEvent: (GameEvent) -> Unit,
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     mainNavController: NavHostController,
     scaffoldNavController: NavHostController = rememberNavController()
 ) {
@@ -383,6 +387,8 @@ fun ScaffoldScreen(
                     onGameEvent,
                     groupsState,
                     onGroupEvent,
+                    crossRefsState,
+                    onCrossRefEvent,
                     scaffoldNavController,
                     applicationContext,
                     mainNavController

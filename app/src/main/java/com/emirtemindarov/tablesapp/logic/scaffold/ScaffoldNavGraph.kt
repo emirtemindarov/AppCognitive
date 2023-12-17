@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesState
 import com.emirtemindarov.tablesapp.groups.GroupEvent
@@ -22,6 +24,8 @@ fun ScaffoldNavGraph(
     onGameEvent: (GameEvent) -> Unit,
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     scaffoldNavController: NavHostController,
     applicationContext: Context,
     mainNavController: NavHostController
@@ -36,6 +40,8 @@ fun ScaffoldNavGraph(
                     onGameEvent,
                     groupsState,
                     onGroupEvent,
+                    crossRefsState,
+                    onCrossRefEvent,
                     mainNavController
                     //sharedViewModel
                 )
@@ -48,6 +54,8 @@ fun ScaffoldNavGraph(
                     onGameEvent,
                     groupsState,
                     onGroupEvent,
+                    crossRefsState,
+                    onCrossRefEvent,
                     applicationContext,
                     mainNavController,
                     //sharedViewModel

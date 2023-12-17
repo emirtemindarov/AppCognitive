@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
+import com.emirtemindarov.tablesapp.crossref.CrossRefViewModel
 import com.emirtemindarov.tablesapp.database.AppDatabase
 import com.emirtemindarov.tablesapp.games.GamesViewModel
 import com.emirtemindarov.tablesapp.groups.GroupsViewModel
@@ -66,6 +67,16 @@ class MainActivity : ComponentActivity() {
         }
     )
 
+    private val crossRefsViewModel by viewModels<CrossRefViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel/*?*/> create(modelClass: Class<T>): T {   // !!!!
+                    return CrossRefViewModel(db.crossRefsDao) as T
+                }
+            }
+        }
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -84,6 +95,8 @@ class MainActivity : ComponentActivity() {
 
                 val gamesState by gamesViewModel.gameState.collectAsState()
                 val groupsState by groupsViewModel.groupsState.collectAsState()
+                val crossRefsState by crossRefsViewModel.crossRefsState.collectAsState()
+
                 MainNavGraph(
                     usersRef,
                     applicationContext,
@@ -91,7 +104,9 @@ class MainActivity : ComponentActivity() {
                     gamesState,
                     onGameEvent = gamesViewModel::onEvent,
                     groupsState,
-                    onGroupEvent = groupsViewModel::onEvent
+                    onGroupEvent = groupsViewModel::onEvent,
+                    crossRefsState,
+                    onCrossRefEvent = crossRefsViewModel::onEvent
                 )
             }
         }

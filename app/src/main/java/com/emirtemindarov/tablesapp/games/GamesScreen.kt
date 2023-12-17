@@ -37,8 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
+import com.emirtemindarov.tablesapp.crossref.AddGameToGroupsDialog
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
 import com.emirtemindarov.tablesapp.groups.GroupEvent
 import com.emirtemindarov.tablesapp.groups.GroupsState
+import com.emirtemindarov.tablesapp.helpers.ContextMenuWrapper
+import com.emirtemindarov.tablesapp.helpers.LongPressContextMenuWrapper
+import com.emirtemindarov.tablesapp.logic.scaffold.ContextMenuItemContent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,11 +56,23 @@ fun GamesScreen(
     onGameEvent: (GameEvent) -> Unit,
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     mainNavController: NavHostController
 ) {
     // (Для отладки) Добавить игру
     if (gamesState.isAddingGame) {
         AddGameDialog(gamesState = gamesState, onGameEvent = onGameEvent)
+    }
+
+    if (crossRefsState.isAddingCrossRef) {
+        AddGameToGroupsDialog(
+            gameId = crossRefsState.gameId,
+            groupsState = groupsState,
+            onGroupEvent = onGroupEvent,
+            crossRefsState = crossRefsState,
+            onCrossRefEvent = onCrossRefEvent
+        )
     }
 
     // Основа
@@ -86,7 +104,8 @@ fun GamesScreen(
                 GamesListItem(
                     game,
                     gamesState,
-                    onGameEvent
+                    onGameEvent,
+                    onCrossRefEvent
                 )
             }
         }
@@ -108,7 +127,7 @@ fun GamesScreen(
 
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (false) {
+        if (true) {
             Column(
                 modifier = Modifier
                     .weight(0.1f)

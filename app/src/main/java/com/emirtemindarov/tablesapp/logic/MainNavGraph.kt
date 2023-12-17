@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesScreen
 import com.emirtemindarov.tablesapp.games.GamesState
@@ -27,6 +29,8 @@ fun MainNavGraph(
     onGameEvent: (GameEvent) -> Unit,
     groupsState: GroupsState,
     onGroupEvent: (GroupEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     mainNavController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = mainNavController, startDestination = "parts") {
@@ -43,6 +47,8 @@ fun MainNavGraph(
                     onGameEvent,
                     groupsState,
                     onGroupEvent,
+                    crossRefsState,
+                    onCrossRefEvent,
                     mainNavController
                 )
             }
@@ -60,7 +66,7 @@ fun MainNavGraph(
             /*
                 ROOM TEST
             */
-            composable(route = "room_test") {
+            /*composable(route = "room_test") {
                 GamesScreen(
                     gamesState,
                     onGameEvent,
@@ -68,7 +74,7 @@ fun MainNavGraph(
                     onGroupEvent,
                     mainNavController
                 )
-            }
+            }*/
         }
     }
 }

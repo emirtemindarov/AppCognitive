@@ -1,11 +1,15 @@
 package com.emirtemindarov.tablesapp.logic.account
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +38,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -61,9 +66,16 @@ fun AccountScreen(
     var iconsVisibility by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() }, // This is mandatory
+                indication = null
+            ) {
+                iconsVisibility = false
+            },
     ) {
 
         Row(
@@ -77,7 +89,21 @@ fun AccountScreen(
                     //.border(BorderStroke(2.dp, Color.Red))
             )
             // TODO Кнопка настроек
-            AnimatedVisibility(visible = iconsVisibility) {
+            AnimatedVisibility(
+                iconsVisibility,
+                enter = slideIn(tween(100, easing = LinearOutSlowInEasing)) { fullSize ->
+                    // Specifies the starting offset of the slide-in to be 1/4 of the width to the right,
+                    // 100 (pixels) below the content position, which results in a simultaneous slide up
+                    // and slide left.
+                    IntOffset(fullSize.width / 4, 100)
+                },
+                exit = slideOut(tween(100, easing = FastOutSlowInEasing)) {
+                    // The offset can be entirely independent of the size of the content. This specifies
+                    // a target offset 180 pixels to the left of the content, and 50 pixels below. This will
+                    // produce a slide-left combined with a slide-down.
+                    IntOffset(-180, 50)
+                },
+            ) {
                 Box(
                     modifier = Modifier
                         .size(45.dp)
@@ -109,7 +135,21 @@ fun AccountScreen(
             )
 
             // Кнопка выхода из аккаунта
-            AnimatedVisibility(visible = iconsVisibility) {
+            AnimatedVisibility(
+                iconsVisibility,
+                enter = slideIn(tween(100, easing = LinearOutSlowInEasing)) { fullSize ->
+                    // Specifies the starting offset of the slide-in to be 1/4 of the width to the right,
+                    // 100 (pixels) below the content position, which results in a simultaneous slide up
+                    // and slide left.
+                    IntOffset(fullSize.width / 4, 100)
+                },
+                exit = slideOut(tween(150, easing = LinearOutSlowInEasing)) { fullSize ->
+                    // The offset can be entirely independent of the size of the content. This specifies
+                    // a target offset 180 pixels to the left of the content, and 50 pixels below. This will
+                    // produce a slide-left combined with a slide-down.
+                    IntOffset(-100, -(fullSize.width / 4))
+                },
+            ) {
                 Column {
                     Spacer(
                         modifier = Modifier

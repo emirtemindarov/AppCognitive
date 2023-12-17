@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.emirtemindarov.tablesapp.crossref.CrossRefEvent
+import com.emirtemindarov.tablesapp.crossref.CrossRefsState
 import com.emirtemindarov.tablesapp.games.GameEvent
 import com.emirtemindarov.tablesapp.games.GamesState
 
@@ -30,6 +32,8 @@ fun GroupsScreen(
     onGroupEvent: (GroupEvent) -> Unit,
     gamesState: GamesState,
     onGameEvent: (GameEvent) -> Unit,
+    crossRefsState: CrossRefsState,
+    onCrossRefEvent: (CrossRefEvent) -> Unit,
     applicationContext: Context,
     mainNavController: NavHostController
 ) {
