@@ -14,6 +14,7 @@ import com.emirtemindarov.tablesapp.crossref.CrossRefViewModel
 import com.emirtemindarov.tablesapp.database.AppDatabase
 import com.emirtemindarov.tablesapp.games.GamesViewModel
 import com.emirtemindarov.tablesapp.groups.GroupsViewModel
+import com.emirtemindarov.tablesapp.helpers.PredefineGamesScript
 import com.emirtemindarov.tablesapp.logic.MainNavGraph
 import com.emirtemindarov.tablesapp.logic.login.GoogleAuthUiClient
 import com.emirtemindarov.tablesapp.ui.theme.TablesAppTheme
@@ -96,6 +97,9 @@ class MainActivity : ComponentActivity() {
                 val gamesState by gamesViewModel.gameState.collectAsState()
                 val groupsState by groupsViewModel.groupsState.collectAsState()
                 val crossRefsState by crossRefsViewModel.crossRefsState.collectAsState()
+
+                // TODO Переделать (примечания в файле PredefinedGames.kt)
+                // PredefineGamesScript(gamesViewModel::onEvent)
 
                 MainNavGraph(
                     usersRef,

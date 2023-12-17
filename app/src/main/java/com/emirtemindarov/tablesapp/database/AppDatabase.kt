@@ -15,7 +15,7 @@ import com.emirtemindarov.tablesapp.groups.GroupsDao
         Group::class,
         CrossRef::class
     ],
-    version = 4
+    version = 6
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract val gamesDao: GamesDao

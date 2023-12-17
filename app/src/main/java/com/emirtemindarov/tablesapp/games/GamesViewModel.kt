@@ -44,6 +44,7 @@ class GamesViewModel(
             }
             GameEvent.SaveGame -> {
                 val title = gameState.value.title
+                val shortDescription = gameState.value.shortDescription
                 val description = gameState.value.description
                 val difficulty = gameState.value.difficulty
                 //val isCompleted = gameState.value.isCompleted
@@ -55,6 +56,7 @@ class GamesViewModel(
 
                 val game = Game(
                     title = title,
+                    shortDescription = shortDescription,
                     description = description,
                     difficulty = difficulty,
                     isCompleted = false,
@@ -66,6 +68,7 @@ class GamesViewModel(
                 _gameState.update { it.copy(
                     isAddingGame = false,
                     title = "",
+                    shortDescription = "",
                     description = "",
                     difficulty = "",
                 ) }
@@ -74,6 +77,11 @@ class GamesViewModel(
             is GameEvent.SetTitle -> {
                 _gameState.update { it.copy(
                     title = event.newTitle
+                ) }
+            }
+            is GameEvent.SetShortDescription -> {
+                _gameState.update { it.copy(
+                    shortDescription = event.newShortDescription
                 ) }
             }
             is GameEvent.SetDescription -> {

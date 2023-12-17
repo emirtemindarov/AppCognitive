@@ -26,7 +26,7 @@ fun AddGameDialog(
         onDismissRequest = {
             onGameEvent(GameEvent.HideDialog)
         },
-        title = { Text(text = "Add contact") },
+        title = { Text(text = "Add game") },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -37,7 +37,16 @@ fun AddGameDialog(
                         onGameEvent(GameEvent.SetTitle(it))
                     },
                     placeholder = {
-                        Text(text = "First name")
+                        Text(text = "title field")
+                    }
+                )
+                TextField(
+                    value = gamesState.shortDescription,
+                    onValueChange = {
+                        onGameEvent(GameEvent.SetShortDescription(it))
+                    },
+                    placeholder = {
+                        Text(text = "short description field")
                     }
                 )
                 TextField(
@@ -46,7 +55,7 @@ fun AddGameDialog(
                         onGameEvent(GameEvent.SetDescription(it))
                     },
                     placeholder = {
-                        Text(text = "Last name")
+                        Text(text = "description field")
                     }
                 )
                 TextField(
@@ -55,7 +64,7 @@ fun AddGameDialog(
                         onGameEvent(GameEvent.SetDifficulty(it))
                     },
                     placeholder = {
-                        Text(text = "Phone number")
+                        Text(text = "difficulty field")
                     }
                 )
             }

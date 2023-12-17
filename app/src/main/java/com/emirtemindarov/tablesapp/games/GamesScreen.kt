@@ -62,7 +62,10 @@ fun GamesScreen(
 ) {
     // (Для отладки) Добавить игру
     if (gamesState.isAddingGame) {
-        AddGameDialog(gamesState = gamesState, onGameEvent = onGameEvent)
+        AddGameDialog(
+            gamesState = gamesState,
+            onGameEvent = onGameEvent
+        )
     }
 
     if (crossRefsState.isAddingCrossRef) {

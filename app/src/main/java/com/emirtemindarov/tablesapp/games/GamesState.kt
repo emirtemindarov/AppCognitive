@@ -7,6 +7,7 @@ data class GamesState(
         Game
     */
     val title: String = "",
+    val shortDescription: String = "",
     val description: String = "",
     val difficulty: String = "",
     val isCompleted: Boolean = false,

@@ -11,6 +11,7 @@ sealed interface GameEvent {
     object HideSortDialog: GameEvent
 
     data class SetTitle(val newTitle: String): GameEvent
+    data class SetShortDescription(val newShortDescription: String): GameEvent
     data class SetDescription(val newDescription: String): GameEvent
     data class SetDifficulty(val newDifficulty: String): GameEvent
     data class SetIsCompleted(val newIsCompleted: Boolean): GameEvent
