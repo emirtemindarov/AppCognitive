@@ -95,7 +95,7 @@ fun ScaffoldScreen(
         }
     }
 
-    // TODO Firebase
+    // Firebase
     usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             userData?.let {
@@ -115,9 +115,9 @@ fun ScaffoldScreen(
     })
 
     LaunchedEffect(key1 = addChildTrigger) {
-        val hashMap = HashMap<String, Int>()
-        hashMap.put("parameter1", 11)
-        hashMap.put("parameter2", 12)
+        val hashMap = HashMap<String, Any>()
+        hashMap.put("username", userData?.username ?: "no username")
+        hashMap.put("score", 0)
         userData?.let {
             usersRef.child(userData.userId).setValue(hashMap)
         }
