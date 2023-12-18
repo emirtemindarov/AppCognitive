@@ -96,7 +96,12 @@ fun GamesListItem(
         ) {
             // Картинка
             Image(
-                painter = painterResource(id = R.drawable.game1_preview),
+                painter = when(game.title) {
+                    "Траектория фигуры" -> painterResource(id = R.drawable.game1_picture)
+                    "Запоминание чисел" -> painterResource(id = R.drawable.game2_picture)
+                    "Подключение узлов" -> painterResource(id = R.drawable.game3_picture)
+                    else -> painterResource(id = R.drawable.game1_preview)
+                },
                 contentDescription = "game 1 preview",
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
