@@ -221,6 +221,7 @@ fun ScaffoldScreen(
 
                         ContextMenuWrapper(
                             dropdownMenuItems = listOf(
+                                // FIXME сортировка работает не правильно
                                 ContextMenuItemContent(
                                     item = {
                                         Row(

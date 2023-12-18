@@ -93,6 +93,7 @@ fun GroupsScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Button(onClick = {
+                onGroupEvent(GroupEvent.SetTitle(""))     // TODO исправить: после зажатия контейнера заголовка группы -> ставиться title этой группы, но этот title не очищается после закрытия контекстного меню
                 onGroupEvent(GroupEvent.ShowDialog)
             }) {
                 Row(

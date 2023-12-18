@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +44,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.emirtemindarov.tablesapp.R
@@ -86,7 +89,13 @@ fun GroupListItem(
         )
     }
 
-    // Вызов и закрытие контекстного меню щаголовка группы
+    // TODO Неточное расположение
+    var cursorPosition by remember { mutableStateOf(DpOffset.Zero) }
+    val writeCursorPosition: (DpOffset) -> Unit = { dpOffset ->
+        cursorPosition = dpOffset
+    }
+
+    // Вызов и закрытие контекстного меню заголовка группы
     var expandedContextMenu by remember { mutableStateOf(false) }
     val expandContextMenu: () -> Unit = {
         expandedContextMenu = true
@@ -103,6 +112,7 @@ fun GroupListItem(
         RawContextMenu(
             expanded = expandedContextMenu,
             collapse = collapse,
+            offset = cursorPosition,
             dropdownMenuItems = listOf(
 
                 // TODO? Перекидывать на первую вкладку для выбора одной задачи, нескольких задач или отмены выбора
@@ -195,6 +205,7 @@ fun GroupListItem(
         RawContextMenu(
             expanded = expandedGameRefContextMenu,
             collapse = collapseGameRefContextMenu,
+            offset = cursorPosition,
             dropdownMenuItems = listOf(
 
                 // Удаление группы (TODO с диалоговым окном подтверждения)
@@ -238,6 +249,7 @@ fun GroupListItem(
         modifier = Modifier
             .wrapContentSize()
             .clip(RoundedCornerShape(15.dp))
+            //.border(1.dp, Color.Red)
     ) {
 
 
@@ -278,9 +290,10 @@ fun GroupListItem(
                             //onPress = { /* Called when the gesture starts */ },
                             onTap = { onEvent(GroupEvent.UpdateExpanded(group.id)) },
                             //onDoubleTap = { /* Called on Double Tap */ },
-                            onLongPress = {
+                            onLongPress = { offset ->
                                 onEvent(GroupEvent.SetCurrentGroup(group.id, group.title))
                                 Log.i("GROUP SET CURRENT", "${group.id} = ${groupsState.currentGroupId}")
+                                writeCursorPosition.invoke(DpOffset(offset.x.dp/10, -offset.y.dp))
                                 expandContextMenu.invoke()
                             },
                         )
@@ -344,9 +357,10 @@ fun GroupListItem(
                                         openDialog.invoke()
                                     },
                                     //onDoubleTap = { /* Called on Double Tap */ },
-                                    onLongPress = {
+                                    onLongPress = { offset ->
                                         onCrossRefEvent(CrossRefEvent.SetGroupId(group.id))
                                         onCrossRefEvent(CrossRefEvent.SetGameId(game.id))
+                                        writeCursorPosition.invoke(DpOffset(offset.x.dp/10, -offset.y.dp))
                                         expandGameRefContextMenu.invoke()
                                     },
                                 )

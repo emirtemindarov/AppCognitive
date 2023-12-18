@@ -15,13 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpOffset
 import com.emirtemindarov.tablesapp.logic.scaffold.ContextMenuItemContent
 
 @Composable
 fun RawContextMenu(
     expanded: Boolean,
     collapse: () -> Unit,
+    offset: DpOffset = DpOffset.Zero,
     dropdownMenuItems: List<ContextMenuItemContent>,
 ) {
-    ContextMenu(expanded, collapse, dropdownMenuItems)
+    ContextMenu(expanded, collapse, dropdownMenuItems, offset)
 }

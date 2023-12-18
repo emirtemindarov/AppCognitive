@@ -130,7 +130,7 @@ fun GamesScreen(
 
 
         // (для отладки) Доп. панель для переходов над scaffold-кнопками
-        if (true) {
+        if (false) {
             Column(
                 modifier = Modifier
                     .weight(0.1f)
